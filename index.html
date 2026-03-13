@@ -259,15 +259,28 @@ async function doRegister() {
   if (!email.includes('@')) { st.regErr = 'Enter a valid email address.'; render(); return; }
   if (pass.length < 6)      { st.regErr = 'Password must be at least 6 characters.'; render(); return; }
   if (pass !== pass2)       { st.regErr = "Passwords don't match."; render(); return; }
-  // Check username not taken
-  const taken = await db.collection('usernames').doc(username.toLowerCase()).get();
-  if (taken.exists) { st.regErr = 'Username already taken. Pick another.'; render(); return; }
+
+  // Check username reservation — but also verify the reserving account still exists
+  const ukey = username.toLowerCase();
+  const taken = await db.collection('usernames').doc(ukey).get();
+  if (taken.exists) {
+    // Check if the account that reserved it still exists in /users
+    const reservedUid = taken.data().uid;
+    const reservingUser = await db.collection('users').doc(reservedUid).get();
+    if (reservingUser.exists) {
+      // Real user still has this name
+      st.regErr = 'Username already taken. Pick another.'; render(); return;
+    } else {
+      // Account was deleted — release the reservation so new user can claim it
+      await db.collection('usernames').doc(ukey).delete();
+    }
+  }
+
   try {
     const cred = await auth.createUserWithEmailAndPassword(email, pass);
     const uid = cred.user.uid;
-    // Store profile
     await db.collection('users').doc(uid).set({ username, email, created: Date.now() });
-    await db.collection('usernames').doc(username.toLowerCase()).set({ uid });
+    await db.collection('usernames').doc(ukey).set({ uid });
     st.modal = null;
     // onAuthStateChanged handles login
   } catch(e) {
@@ -383,25 +396,22 @@ async function loadLeaderboard() {
 function startTimer() {
   st.timerRunning = true;
   if (st.timerInterval) clearInterval(st.timerInterval);
+  // The interval runs forever — even when render() replaces the DOM.
+  // updateTimerDisplay() finds the element by id each tick so it always works.
   st.timerInterval = setInterval(async () => {
     st.timerSec++;
     updateTimerDisplay();
-    if (st.timerRunId) {
-      // Save elapsed to Firestore every 10s to avoid too many writes
-      if (st.timerSec % 10 === 0) {
-        await db.collection('runs').doc(st.timerRunId).update({ elapsed: st.timerSec });
-      }
+    if (st.timerRunId && st.timerSec % 10 === 0) {
+      await db.collection('runs').doc(st.timerRunId).update({ elapsed: st.timerSec });
     }
   }, 1000);
-  const btn = document.getElementById('timer-toggle');
-  if (btn) { btn.textContent = '⏸ Pause'; btn.className = 'btn btn-ghost'; }
+  syncTimerUI();
 }
 
 function stopTimer() {
   st.timerRunning = false;
   if (st.timerInterval) { clearInterval(st.timerInterval); st.timerInterval = null; }
-  const btn = document.getElementById('timer-toggle');
-  if (btn) { btn.textContent = '▶ Start'; btn.className = 'btn btn-primary'; }
+  syncTimerUI();
 }
 
 function resetTimer() {
@@ -411,8 +421,21 @@ function resetTimer() {
 }
 
 function updateTimerDisplay() {
+  // Writes directly to the DOM element — never triggers a full re-render
   const el = document.getElementById('td');
   if (el) el.textContent = fmtT(st.timerSec);
+}
+
+function syncTimerUI() {
+  // Restores correct button label and timer value after any render() call
+  updateTimerDisplay();
+  const btn = document.getElementById('timer-toggle');
+  if (btn) {
+    btn.textContent = st.timerRunning ? '⏸ Pause' : '▶ Start';
+    btn.className   = st.timerRunning ? 'btn btn-ghost' : 'btn btn-primary';
+  }
+  const sel = document.getElementById('timer-sel');
+  if (sel && st.timerRunId) sel.value = st.timerRunId;
 }
 
 // =============================================
@@ -425,6 +448,7 @@ function render() {
   } else {
     root.innerHTML = renderApp();
     afterRender();
+    syncTimerUI(); // Always restore timer display + button state after DOM replacement
   }
   bindEvents();
 }
