@@ -2,7 +2,7 @@
 
 A web app for tracking your Minecraft Java Edition Hardcore runs — built as a static GitHub Pages site powered by Firebase. Log runs, track deaths, time your sessions, and compete on a shared leaderboard with other players.
 
-**Live site:** [emmaoudhof.github.io/Resident-Evil-2-Full-Guide](https://emmaoudhof.github.io/Minecraft-Hardcore-Log/)
+**Live site:** [emmaoudhof.github.io/Minecraft-Hardcore-Log(https://emmaoudhof.github.io/Minecraft-Hardcore-Log/)
 
 ---
 
