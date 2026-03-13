@@ -260,18 +260,25 @@ async function doRegister() {
   if (pass.length < 6)      { st.regErr = 'Password must be at least 6 characters.'; render(); return; }
   if (pass !== pass2)       { st.regErr = "Passwords don't match."; render(); return; }
 
-  // Check username reservation — but also verify the reserving account still exists
+  // Check username reservation — verify the reserving account is still active
   const ukey = username.toLowerCase();
   const taken = await db.collection('usernames').doc(ukey).get();
   if (taken.exists) {
-    // Check if the account that reserved it still exists in /users
     const reservedUid = taken.data().uid;
     const reservingUser = await db.collection('users').doc(reservedUid).get();
+    let isTrulyTaken = false;
     if (reservingUser.exists) {
-      // Real user still has this name
+      // /users doc exists — check the username stored there actually matches
+      const storedUsername = (reservingUser.data().username || '').toLowerCase();
+      if (storedUsername === ukey) {
+        isTrulyTaken = true; // Legitimately taken by an active user
+      }
+      // If storedUsername doesn't match ukey, it's a stale reservation → clear it
+    }
+    if (isTrulyTaken) {
       st.regErr = 'Username already taken. Pick another.'; render(); return;
     } else {
-      // Account was deleted — release the reservation so new user can claim it
+      // Stale reservation (deleted account or username mismatch) — free it
       await db.collection('usernames').doc(ukey).delete();
     }
   }
@@ -317,7 +324,7 @@ async function doCreateRun() {
   const seed    = vget('nr-seed').trim();
   const goal    = vget('nr-goal') || 'ender';
   const notes   = vget('nr-notes').trim();
-  await db.collection('runs').add({
+  const ref = await db.collection('runs').add({
     uid: st.user.uid,
     username: st.username,
     name, version, seed, goal, notes,
@@ -327,8 +334,12 @@ async function doCreateRun() {
     elapsed: 0,
     deaths: []
   });
+  // Auto-start the timer on the new run
+  st.timerRunId = ref.id;
+  st.timerSec = 0;
   st.modal = null;
   render();
+  startTimer(); // start after render so button is in DOM
 }
 
 async function doComplete(id) {
@@ -421,9 +432,14 @@ function resetTimer() {
 }
 
 function updateTimerDisplay() {
-  // Writes directly to the DOM element — never triggers a full re-render
+  // Update main timer display
   const el = document.getElementById('td');
   if (el) el.textContent = fmtT(st.timerSec);
+  // Also update any live run time on the dashboard active run cards
+  st.runs.filter(r => r.status === 'alive').forEach(r => {
+    const liveEl = document.getElementById('live-' + r.id);
+    if (liveEl) liveEl.textContent = fmtT(Math.floor((Date.now() - r.startTime) / 1000));
+  });
 }
 
 function syncTimerUI() {
@@ -568,14 +584,46 @@ function renderDashboard() {
       <button class="btn btn-ghost" id="timer-reset">↺ Reset</button>
     </div>
   </div>
-  <div class="toolbar"><h2>Recent Runs</h2><button class="btn btn-ghost btn-sm" data-tab="runs">View All →</button></div>
+  <div class="toolbar">
+    <h2>Active Run</h2>
+    <button class="btn btn-primary" id="open-nr-dash">+ Start New Run</button>
+  </div>
+  ${renderDashboardActiveRun()}
+  <div class="toolbar" style="margin-top:1.5rem"><h2>Recent Runs</h2><button class="btn btn-ghost btn-sm" data-tab="runs">View All →</button></div>
   ${renderRunCards(st.runs.slice(0,5), false)}
 </div>`;}
 
+function renderDashboardActiveRun() {
+  const active = st.runs.filter(r => r.status === 'alive');
+  if (!active.length) {
+    return `<div class="empty" style="padding:1.5rem;background:var(--panel);border:1px solid var(--border);border-radius:4px;border-left:4px solid var(--grass)">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:.8rem;color:var(--muted)">No active run — click "Start New Run" to begin tracking</div>
+    </div>`;
+  }
+  const gm = {ender:'Ender Dragon',wither:'Wither',elder:'Elder Guardian',survive:'Survive',speedrun:'Speedrun'};
+  return active.map(r => `
+  <div class="run-card alive" style="border-left-width:4px;background:rgba(74,124,47,0.07)">
+    <div>
+      <div class="rn">${esc(r.name)}</div>
+      <div class="rm">
+        <span>📅 ${new Date(r.startTime).toLocaleDateString()}</span>
+        <span class="vbadge">${r.version}</span>
+        ${r.seed ? `<span style="color:#6b6b7a;font-size:.68rem">seed:${esc(r.seed)}</span>` : ''}
+        <span>${gm[r.goal]||r.goal}</span>
+      </div>
+    </div>
+    <div class="rtime" id="live-${r.id}">${fmtT(Math.floor((Date.now()-r.startTime)/1000))}</div>
+    <div class="rack">
+      <button class="btn btn-primary btn-sm" data-complete="${r.id}">🏆 Finish</button>
+      <button class="btn btn-danger btn-sm" data-kill="${r.id}">💀 I Died</button>
+    </div>
+  </div>`).join('');
+}
+
 function renderRuns() {
   return `<div class="wrap">
-  <div class="ph"><div class="pt">My <em>Runs</em></div><div class="pd">Every hardcore attempt — life and death</div></div>
-  <div class="toolbar"><h2>All Runs <span class="badge">${st.runs.length} run${st.runs.length!==1?'s':''}</span></h2><button class="btn btn-primary" id="open-nr">+ New Run</button></div>
+  <div class="ph"><div class="pt">My <em>Runs</em></div><div class="pd">Every hardcore attempt — start new runs from the Dashboard</div></div>
+  <div class="toolbar"><h2>All Runs <span class="badge">${st.runs.length} run${st.runs.length!==1?'s':''}</span></h2></div>
   ${renderRunCards(st.runs, true)}
 </div>`;}
 
@@ -784,7 +832,7 @@ function bindEvents() {
   on('logo-h', () => setTab('dashboard'));
   document.querySelectorAll('[data-tab]').forEach(el => el.addEventListener('click', () => setTab(el.dataset.tab)));
   document.querySelectorAll('[data-guide]').forEach(el => el.addEventListener('click', () => { st.guideTab=el.dataset.guide; render(); }));
-  on('open-nr', () => { st.modal='newrun'; render(); });
+  on('open-nr-dash', () => { st.modal='newrun'; render(); });
   on('close-nr', () => { st.modal=null; render(); });
   on('nr-ov', e => { if (e.target.id==='nr-ov') { st.modal=null; render(); }});
   on('do-create', doCreateRun);
