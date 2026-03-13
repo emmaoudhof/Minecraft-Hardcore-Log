@@ -260,27 +260,31 @@ async function doRegister() {
   if (pass.length < 6)      { st.regErr = 'Password must be at least 6 characters.'; render(); return; }
   if (pass !== pass2)       { st.regErr = "Passwords don't match."; render(); return; }
 
-  // Check username reservation — verify the reserving account is still active
+  // Check username availability
+  // Strategy: username is truly taken ONLY if another currently-logged-in user owns it.
+  // We detect this by checking if the reserving /users doc has the SAME email as a
+  // currently active Firebase Auth session — which we can approximate by checking
+  // if the stored email differs from the one being registered.
+  // If the emails differ AND the /users doc exists, we still need to decide if it's active.
+  // The most robust client-side approach: treat it as taken only if stored email != new email.
+  // If same email is re-registering (e.g. after account delete), always allow.
   const ukey = username.toLowerCase();
   const taken = await db.collection('usernames').doc(ukey).get();
   if (taken.exists) {
     const reservedUid = taken.data().uid;
     const reservingUser = await db.collection('users').doc(reservedUid).get();
-    let isTrulyTaken = false;
     if (reservingUser.exists) {
-      // /users doc exists — check the username stored there actually matches
+      const storedEmail = (reservingUser.data().email || '').toLowerCase();
       const storedUsername = (reservingUser.data().username || '').toLowerCase();
-      if (storedUsername === ukey) {
-        isTrulyTaken = true; // Legitimately taken by an active user
+      // Only block if: username matches AND it's a DIFFERENT email (different person)
+      if (storedUsername === ukey && storedEmail !== email.toLowerCase()) {
+        st.regErr = 'Username already taken. Pick another.'; render(); return;
       }
-      // If storedUsername doesn't match ukey, it's a stale reservation → clear it
+      // Same email re-registering after account deletion, or username mismatch → clean up stale docs
+      await db.collection('users').doc(reservedUid).delete();
     }
-    if (isTrulyTaken) {
-      st.regErr = 'Username already taken. Pick another.'; render(); return;
-    } else {
-      // Stale reservation (deleted account or username mismatch) — free it
-      await db.collection('usernames').doc(ukey).delete();
-    }
+    // Always clear the stale reservation before proceeding
+    await db.collection('usernames').doc(ukey).delete();
   }
 
   try {
@@ -514,9 +518,9 @@ function renderApp() {
         <div class="logo-text">HARDCORE<br><em>LOG</em></div>
       </div>
       <nav>
-        ${['dashboard','runs','guide','leaderboard'].map(t =>
+        ${['dashboard','runs','leaderboard'].map(t =>
           `<button class="nb${st.tab===t?' act':''}" data-tab="${t}">${
-            {dashboard:'Dashboard',runs:'My Runs',guide:'How-To Guide',leaderboard:'Leaderboard'}[t]
+            {dashboard:'Dashboard',runs:'My Runs',leaderboard:'Leaderboard'}[t]
           }</button>`).join('')}
       </nav>
       <div class="user-chip"><span class="dot"></span>${esc(st.username)}</div>
@@ -526,7 +530,6 @@ function renderApp() {
   <div id="app-body">
     ${st.tab==='dashboard'  ? renderDashboard()   : ''}
     ${st.tab==='runs'       ? renderRuns()        : ''}
-    ${st.tab==='guide'      ? renderGuide()       : ''}
     ${st.tab==='leaderboard'? renderLeaderboard() : ''}
   </div>
   ${renderModals()}`;
@@ -539,7 +542,7 @@ function renderModals() {
     <div class="modal">
       <div class="mt">🌱 New Hardcore Run</div>
       <div class="field"><label>Run Name</label><input id="nr-name" type="text" placeholder="e.g. The Iron Comeback #3"/></div>
-      <div class="field"><label>Version</label><select id="nr-ver"><option>1.21.4</option><option>1.21</option><option>1.20.4</option><option>1.20</option><option>1.19.4</option><option>1.18.2</option><option>1.16.5</option><option>Other</option></select></div>
+      <div class="field"><label>Version</label><select id="nr-ver"><option>1.21.11</option><option>1.21.10</option><option>1.21.8</option><option>1.21.7</option><option>1.21.6</option><option>1.21.5</option><option>1.21.4</option><option>1.21.3</option><option>1.21.2</option><option>1.21.1</option><option>1.21</option><option>1.20.6</option><option>1.20.5</option><option>1.20.4</option><option>1.20.3</option><option>1.20.2</option><option>1.20.1</option><option>1.20</option><option>1.19.4</option><option>1.19.3</option><option>1.19.2</option><option>1.19.1</option><option>1.19</option><option>1.18.2</option><option>1.18.1</option><option>1.18</option><option>1.17.1</option><option>1.17</option><option>1.16.5</option><option>1.16.4</option><option>1.16.3</option><option>1.16.2</option><option>1.16.1</option><option>1.16</option><option>1.15.2</option><option>1.15.1</option><option>1.15</option><option>1.14.4</option><option>1.14.3</option><option>1.14.2</option><option>1.14.1</option><option>1.14</option><option>1.13.2</option><option>1.13.1</option><option>1.13</option><option>1.12.2</option><option>1.12.1</option><option>1.12</option><option>1.11.2</option><option>1.11.1</option><option>1.11</option><option>1.10.2</option><option>1.10</option><option>1.9.4</option><option>1.9</option><option>1.8.9</option><option>1.8</option><option>1.7.10</option><option>1.7.2</option><option>1.6.4</option><option>1.6.2</option><option>1.5.2</option><option>1.5.1</option><option>1.4.7</option><option>1.4.2</option><option>1.3.2</option><option>1.2.5</option><option>1.1</option><option>1.0</option><option>Other</option></select></div>
       <div class="field"><label>World Seed (optional)</label><input id="nr-seed" type="text" placeholder="-1234567890"/></div>
       <div class="field"><label>Goal</label><select id="nr-goal"><option value="ender">Kill the Ender Dragon</option><option value="wither">Kill the Wither</option><option value="elder">Kill Elder Guardian</option><option value="survive">Survive as long as possible</option><option value="speedrun">Speedrun (Any%)</option></select></div>
       <div class="field"><label>Notes</label><textarea id="nr-notes" placeholder="Strategy, biome notes..."></textarea></div>
