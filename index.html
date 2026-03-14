@@ -6,33 +6,36 @@
 <title>HardcoreLog — Minecraft Hardcore Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--grass:#4a7c2f;--grass-l:#5ea832;--bedrock:#0f0f18;--panel:#16161f;--red:#d93636;--redg:#ff4444;--gold:#f5c518;--diamond:#4de8f5;--white:#f0f0f0;--muted:rgba(255,255,255,0.45);--border:rgba(255,255,255,0.07)}
+:root{--grass:#4a7c2f;--grass-l:#5ea832;--bedrock:#0f0f18;--panel:#16161f;--panel2:#1c1c2a;--red:#d93636;--redg:#ff4444;--gold:#f5c518;--diamond:#4de8f5;--white:#f0f0f0;--muted:rgba(255,255,255,0.45);--border:rgba(255,255,255,0.07)}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;background:var(--bedrock);color:var(--white);font-family:'Nunito',sans-serif;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.012) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;z-index:0}
 #root{position:relative;z-index:1;min-height:100vh}
 .flex-center{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(94,168,50,.5)}70%{box-shadow:0 0 0 8px rgba(94,168,50,0)}}
+@keyframes deathFlash{0%,100%{border-left-color:var(--red)}50%{border-left-color:var(--redg)}}
+
+/* ── BUTTONS ── */
 .btn{font-family:'Share Tech Mono',monospace;font-size:.78rem;padding:.5rem 1.1rem;border:none;cursor:pointer;border-radius:3px;transition:all .15s;letter-spacing:.05em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.35rem}
 .btn-primary{background:var(--grass);color:#fff;box-shadow:0 2px 0 rgba(0,0,0,.4)}.btn-primary:hover{background:var(--grass-l)}
 .btn-ghost{background:rgba(255,255,255,.05);color:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.1)}.btn-ghost:hover{background:rgba(255,255,255,.1);color:var(--white)}
-.btn-danger{background:var(--red);color:#fff}.btn-danger:hover{background:var(--redg)}
 .btn-sm{padding:.3rem .65rem;font-size:.68rem}.btn-block{width:100%;justify-content:center;padding:.7rem}
+
+/* ── FORM ── */
 .field{margin-bottom:1.1rem}
 .field label{display:block;font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem}
-.field input,.field select,.field textarea{width:100%;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.09);border-radius:3px;padding:.6rem .8rem;color:var(--white);font-family:'Share Tech Mono',monospace;font-size:.82rem;outline:none;transition:border-color .15s}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--grass)}
-.field textarea{resize:vertical;min-height:70px}
-.field select option{background:#1a1a2a}
+.field input{width:100%;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.09);border-radius:3px;padding:.6rem .8rem;color:var(--white);font-family:'Share Tech Mono',monospace;font-size:.82rem;outline:none;transition:border-color .15s}
+.field input:focus{border-color:var(--grass)}
 .errmsg{background:rgba(217,54,54,.12);border:1px solid rgba(217,54,54,.3);border-radius:3px;padding:.55rem .8rem;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:#ff7070;margin-top:.5rem}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-/* LOGIN */
+
+/* ── LOGIN ── */
 .login-box{background:var(--panel);border:1px solid var(--border);border-top:3px solid var(--grass);border-radius:6px;padding:2.5rem;width:100%;max-width:380px;animation:fadeUp .35s ease}
-.pixel-title{font-family:'Press Start 2P',monospace;font-size:.9rem;color:var(--grass-l);text-align:center;margin-bottom:.4rem}
+.pixel-title{font-family:'Press Start 2P',monospace;font-size:.8rem;color:var(--grass-l);text-align:center;margin-bottom:.4rem;line-height:1.7}
 .sub{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--muted);text-align:center;margin-bottom:2rem}
-.login-toggle{text-align:center;font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--muted);margin-top:1rem}
-.login-toggle a{color:var(--grass-l);cursor:pointer;text-decoration:underline}
-/* HEADER */
+
+/* ── HEADER ── */
 header{background:rgba(10,10,18,.97);border-bottom:2px solid var(--grass);padding:0 1.5rem;position:sticky;top:0;z-index:50}
 .hinner{max-width:1100px;margin:0 auto;display:flex;align-items:center;height:58px;gap:.5rem}
 .logo{display:flex;align-items:center;gap:.6rem;cursor:pointer;flex-shrink:0}
@@ -43,15 +46,20 @@ nav{display:flex;gap:.15rem;margin-left:auto}
 .nb{background:none;border:1px solid transparent;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:.75rem;padding:.35rem .8rem;cursor:pointer;border-radius:3px;transition:all .15s}
 .nb:hover{background:rgba(255,255,255,.06);color:var(--white)}
 .nb.act{border-color:var(--grass);color:var(--grass-l);background:rgba(74,124,47,.1)}
-.user-chip{display:flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:3px;padding:.3rem .7rem;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--gold);margin-left:.75rem;flex-shrink:0;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dot{width:6px;height:6px;background:var(--grass-l);border-radius:50%;animation:blink 2s infinite;flex-shrink:0}
-/* MAIN */
+.user-chip{display:flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:3px;padding:.3rem .7rem;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--gold);margin-left:.75rem;flex-shrink:0}
+.online-dot{width:6px;height:6px;background:var(--grass-l);border-radius:50%;animation:blink 2s infinite;flex-shrink:0}
+
+/* ── PAGE ── */
 .wrap{max-width:1100px;margin:0 auto;padding:1.75rem 1.25rem}
 .ph{margin-bottom:1.75rem}
 .pt{font-family:'Press Start 2P',monospace;font-size:1rem;margin-bottom:.35rem}
 .pt em{color:var(--grass-l);font-style:normal}
 .pd{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--muted)}
-/* STATS */
+.vbadge{background:rgba(77,232,245,.08);border:1px solid rgba(77,232,245,.18);border-radius:2px;padding:.1rem .4rem;font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--diamond);white-space:nowrap}
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.6rem}
+.toolbar h2{font-family:'Press Start 2P',monospace;font-size:.72rem;color:rgba(255,255,255,.8)}
+
+/* ── STATS ── */
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:.85rem;margin-bottom:1.75rem}
 .sc{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:1.1rem;position:relative;overflow:hidden}
 .sc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
@@ -60,102 +68,93 @@ nav{display:flex;gap:.15rem;margin-left:auto}
 .sv{font-family:'Press Start 2P',monospace;font-size:1.35rem;line-height:1}
 .sc.r .sv{color:var(--redg)}.sc.go .sv{color:var(--gold)}.sc.d .sv{color:var(--diamond)}
 .ss{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--muted);margin-top:.35rem}
-/* TIMER */
-.timer-box{background:var(--panel);border:1px solid var(--border);border-top:3px solid var(--diamond);border-radius:4px;padding:1.25rem;margin-bottom:1.75rem}
-.tl{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.65rem}
-.td{font-family:'Press Start 2P',monospace;font-size:2rem;color:var(--diamond);margin-bottom:.85rem}
-.tc{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
-.tc select{background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.09);border-radius:3px;padding:.4rem .7rem;color:var(--white);font-family:'Share Tech Mono',monospace;font-size:.72rem;outline:none;cursor:pointer;flex:1;min-width:160px}
-.tc select option{background:#1a1a2a}
-/* RUNS */
-.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.6rem}
-.toolbar h2{font-family:'Press Start 2P',monospace;font-size:.72rem;color:rgba(255,255,255,.8)}
-.badge{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:3px;padding:.1rem .45rem;font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--muted);margin-left:.4rem}
+
+/* ── LIVE RUN CARD ── */
+.live-card{background:var(--panel2);border:1px solid rgba(94,168,50,.2);border-left:4px solid var(--grass);border-radius:6px;padding:1.5rem 1.75rem;margin-bottom:1.75rem;animation:fadeUp .3s ease;position:relative;overflow:hidden}
+.live-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top left,rgba(94,168,50,.06) 0%,transparent 60%);pointer-events:none}
+.live-card.dead{border-color:rgba(217,54,54,.25);border-left-color:var(--red);animation:deathFlash 1.5s ease 3}
+.live-card.dead::before{background:radial-gradient(ellipse at top left,rgba(217,54,54,.06) 0%,transparent 60%)}
+.lc-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem}
+.lc-name{font-family:'Press Start 2P',monospace;font-size:.72rem;color:var(--white)}
+.lc-badge{display:flex;align-items:center;gap:.4rem;font-family:'Share Tech Mono',monospace;font-size:.7rem;padding:.25rem .65rem;border-radius:3px;border:1px solid}
+.lc-badge.alive{color:var(--grass-l);border-color:rgba(94,168,50,.3);background:rgba(94,168,50,.08)}
+.lc-badge.dead{color:var(--redg);border-color:rgba(217,54,54,.3);background:rgba(217,54,54,.08)}
+.lc-badge .pulse{width:6px;height:6px;border-radius:50%;background:var(--grass-l);animation:pulse 2s infinite;flex-shrink:0}
+.lc-badge.dead .pulse{background:var(--redg);animation:none}
+.big-timer{font-family:'Press Start 2P',monospace;font-size:3rem;color:var(--diamond);letter-spacing:.03em;margin-bottom:1.25rem;text-shadow:0 0 24px rgba(77,232,245,.25);line-height:1}
+.big-timer.dead{color:var(--redg);text-shadow:0 0 24px rgba(255,68,68,.2)}
+.players-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem}
+.pchip{display:flex;align-items:center;gap:.45rem;border-radius:4px;padding:.35rem .7rem;border:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.25)}
+.pchip img{width:28px;height:28px;border-radius:3px;image-rendering:pixelated;border:1px solid rgba(255,255,255,.1)}
+.pchip-name{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:rgba(255,255,255,.7)}
+.lc-meta{display:flex;gap:.75rem;flex-wrap:wrap;font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--muted)}
+.death-msg{background:rgba(217,54,54,.07);border:1px solid rgba(217,54,54,.18);border-radius:3px;padding:.6rem .85rem;font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--redg);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+
+/* ── WAITING BOX ── */
+.wait-box{background:var(--panel);border:1px solid var(--border);border-left:4px solid rgba(255,255,255,.08);border-radius:6px;padding:1.5rem 1.75rem;margin-bottom:1.75rem;display:flex;align-items:center;gap:1.1rem}
+.wait-box .wi{font-size:1.75rem;flex-shrink:0}
+.wait-title{font-family:'Press Start 2P',monospace;font-size:.62rem;color:rgba(255,255,255,.4);margin-bottom:.4rem}
+.wait-sub{font-family:'Share Tech Mono',monospace;font-size:.73rem;color:var(--muted)}
+
+/* ── RUN LIST ── */
 .runs-list{display:flex;flex-direction:column;gap:.6rem}
-.run-card{background:var(--panel);border:1px solid var(--border);border-left:4px solid transparent;border-radius:4px;padding:.9rem 1.1rem;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:.75rem;transition:background .15s}
-.run-card:hover{background:rgba(255,255,255,.025)}
-.run-card.alive{border-left-color:var(--grass)}.run-card.dead{border-left-color:var(--red);opacity:.72}.run-card.completed{border-left-color:var(--gold)}
+.rc{background:var(--panel);border:1px solid var(--border);border-left:4px solid transparent;border-radius:4px;padding:.9rem 1.1rem;transition:background .15s}
+.rc:hover{background:rgba(255,255,255,.02)}
+.rc.alive{border-left-color:var(--grass)}
+.rc.dead{border-left-color:var(--red)}
+.rc.completed{border-left-color:var(--gold)}
+.rc-inner{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:.75rem}
 .rn{font-family:'Press Start 2P',monospace;font-size:.6rem;margin-bottom:.3rem}
-.rm{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--muted);display:flex;gap:.75rem;flex-wrap:wrap}
-.rtag{font-family:'Share Tech Mono',monospace;font-size:.62rem;padding:.12rem .4rem;border-radius:2px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
-.rtag.alive{background:rgba(74,124,47,.18);color:var(--grass-l);border:1px solid rgba(74,124,47,.28)}
-.rtag.dead{background:rgba(217,54,54,.18);color:var(--redg);border:1px solid rgba(217,54,54,.28)}
-.rtag.completed{background:rgba(245,197,24,.13);color:var(--gold);border:1px solid rgba(245,197,24,.28)}
+.rm{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--muted);display:flex;gap:.65rem;flex-wrap:wrap;margin-top:.3rem}
+.rtag{font-family:'Share Tech Mono',monospace;font-size:.62rem;padding:.12rem .4rem;border-radius:2px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;border:1px solid}
+.rtag.alive{background:rgba(74,124,47,.18);color:var(--grass-l);border-color:rgba(74,124,47,.28)}
+.rtag.dead{background:rgba(217,54,54,.18);color:var(--redg);border-color:rgba(217,54,54,.28)}
+.rtag.completed{background:rgba(245,197,24,.13);color:var(--gold);border-color:rgba(245,197,24,.28)}
 .rtime{font-family:'Press Start 2P',monospace;font-size:.58rem;color:var(--diamond);white-space:nowrap}
-.rack{display:flex;gap:.35rem;align-items:center}
-.ib{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.5);width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:3px;font-size:.8rem;transition:all .15s}
-.ib:hover{background:rgba(255,255,255,.1);color:var(--white)}
-.ib.kill:hover{background:rgba(217,54,54,.2);color:var(--redg)}
+.death-line{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--redg);margin-top:.35rem;display:flex;align-items:center;gap:.3rem}
 .empty{text-align:center;padding:2.5rem;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:.78rem}
 .empty-icon{font-size:2rem;margin-bottom:.75rem}
-.vbadge{background:rgba(77,232,245,.08);border:1px solid rgba(77,232,245,.18);border-radius:2px;padding:.1rem .4rem;font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--diamond)}
-/* MODAL */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)}
-.overlay.open{display:flex}
-.modal{background:#1a1a28;border:1px solid rgba(255,255,255,.1);border-top:3px solid var(--grass);border-radius:6px;padding:1.75rem;width:100%;max-width:460px;animation:fadeUp .22s ease;max-height:90vh;overflow-y:auto}
-.modal.danger{border-top-color:var(--red)}
-.mt{font-family:'Press Start 2P',monospace;font-size:.7rem;margin-bottom:1.25rem;color:var(--grass-l)}
-.modal.danger .mt{color:var(--redg)}
-.ma{display:flex;gap:.6rem;justify-content:flex-end;margin-top:1.25rem}
-/* GUIDE */
-.guide-wrap{display:grid;grid-template-columns:240px 1fr;gap:1.25rem;align-items:start}
-.gnav{background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden;position:sticky;top:70px}
-.gnav-h{background:rgba(255,255,255,.03);padding:.65rem .9rem;font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
-.gni{display:flex;align-items:center;gap:.5rem;padding:.65rem .9rem;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--muted);cursor:pointer;border-bottom:1px solid rgba(255,255,255,.03);transition:all .15s}
-.gni:hover{background:rgba(255,255,255,.035);color:var(--white)}
-.gni.act{background:rgba(74,124,47,.13);color:var(--grass-l);border-left:2px solid var(--grass)}
-.gcard{background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:.85rem}
-.gch{background:rgba(255,255,255,.03);padding:.85rem 1rem;display:flex;align-items:center;gap:.6rem;border-bottom:1px solid var(--border);cursor:pointer}
-.gct{font-family:'Press Start 2P',monospace;font-size:.58rem;flex:1}
-.diff{font-family:'Share Tech Mono',monospace;font-size:.62rem;padding:.1rem .4rem;border-radius:2px}
-.diff.easy{background:rgba(74,124,47,.2);color:var(--grass-l)}.diff.med{background:rgba(245,197,24,.13);color:var(--gold)}.diff.hard{background:rgba(217,54,54,.18);color:var(--redg)}
-.gcb{padding:1.1rem;display:none}.gcb.open{display:block}
-.gstep{display:flex;gap:.75rem;margin-bottom:.85rem;align-items:flex-start}
-.snum{background:var(--grass);color:#fff;font-family:'Press Start 2P',monospace;font-size:.5rem;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:2px;flex-shrink:0;margin-top:2px}
-.stxt{font-size:.83rem;line-height:1.65;color:rgba(255,255,255,.72)}
-.stxt strong{color:var(--white)}
-.tip{background:rgba(77,232,245,.05);border:1px solid rgba(77,232,245,.18);border-left:3px solid var(--diamond);border-radius:0 2px 2px 0;padding:.75rem .9rem;margin:.85rem 0;font-size:.78rem;color:rgba(255,255,255,.68);line-height:1.6}
-.tip-l{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--diamond);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem}
-.warn{background:rgba(217,54,54,.05);border:1px solid rgba(217,54,54,.18);border-left:3px solid var(--red);border-radius:0 2px 2px 0;padding:.75rem .9rem;margin:.85rem 0;font-size:.78rem;color:rgba(255,255,255,.68);line-height:1.6}
-.warn-l{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--redg);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem}
-.cl{list-style:none;padding:0}
-.cl li{display:flex;gap:.5rem;font-size:.8rem;color:rgba(255,255,255,.68);line-height:1.5;margin-bottom:.4rem}
-.cl li::before{content:'◆';color:var(--grass-l);flex-shrink:0;margin-top:2px;font-size:.65rem}
-/* LB */
+
+/* ── LEADERBOARD ── */
 .lbt{width:100%;border-collapse:collapse;font-family:'Share Tech Mono',monospace;font-size:.75rem}
 .lbt th{background:rgba(255,255,255,.03);padding:.65rem .9rem;text-align:left;color:var(--muted);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--border)}
-.lbt td{padding:.8rem .9rem;border-bottom:1px solid rgba(255,255,255,.035);color:rgba(255,255,255,.72)}
+.lbt td{padding:.75rem .9rem;border-bottom:1px solid rgba(255,255,255,.035);color:rgba(255,255,255,.72);vertical-align:middle}
 .lbt tr:hover td{background:rgba(255,255,255,.018)}
 .lbr{font-family:'Press Start 2P',monospace;font-size:.58rem}
 .r1{color:var(--gold)}.r2{color:#aaa}.r3{color:#cd7f32}
-.lbp{font-family:'Nunito',sans-serif;font-weight:700;color:var(--white)}
+.lbplayer{display:flex;align-items:center;gap:.45rem;font-family:'Nunito',sans-serif;font-weight:700;color:var(--white)}
 .lbyou{color:var(--diamond)!important}
 .lbtime{font-family:'Press Start 2P',monospace;font-size:.55rem;color:var(--diamond)}
-.dli{background:var(--panel);border:1px solid var(--border);border-left:4px solid var(--red);border-radius:4px;padding:.9rem 1.1rem;margin-bottom:.65rem;display:flex;gap:.85rem;align-items:flex-start}
-.dic{font-family:'Share Tech Mono',monospace;font-size:.78rem;color:var(--white);margin-bottom:.25rem}
-.dim{font-size:.7rem;color:var(--muted);font-family:'Share Tech Mono',monospace}
+.skin-head{width:24px;height:24px;border-radius:2px;image-rendering:pixelated;border:1px solid rgba(255,255,255,.1);flex-shrink:0}
+
+/* ── MODAL ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)}
+.overlay.open{display:flex}
+.modal{background:#1a1a28;border:1px solid rgba(255,255,255,.1);border-top:3px solid var(--grass);border-radius:6px;padding:1.75rem;width:100%;max-width:420px;animation:fadeUp .22s ease}
+.mt{font-family:'Press Start 2P',monospace;font-size:.7rem;margin-bottom:1.25rem;color:var(--grass-l)}
+.ma{display:flex;gap:.6rem;justify-content:flex-end;margin-top:1.25rem}
+
+/* ── LOADING ── */
 .loading{display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:1rem}
 .loading-txt{font-family:'Press Start 2P',monospace;font-size:.75rem;color:var(--grass-l);animation:blink 1s infinite}
+
 @media(max-width:768px){
-  .guide-wrap{grid-template-columns:1fr}.gnav{position:static}
-  nav{display:none}.td{font-size:1.35rem}
+  .big-timer{font-size:2rem}
   .stats{grid-template-columns:repeat(2,1fr)}
-  .run-card{grid-template-columns:1fr}
+  .rc-inner{grid-template-columns:1fr}
+  nav .nb:not(.act){font-size:.65rem;padding:.3rem .5rem}
 }
 </style>
 </head>
 <body>
 <div id="root"><div class="loading"><div class="loading-txt">Connecting...</div></div></div>
 
-<!-- Firebase SDKs (compat version — works with plain script tags, no bundler needed) -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
 <script>
-// =============================================
-//  FIREBASE CONFIG — your credentials from the screenshot
-// =============================================
+// ── CONFIG ───────────────────────────────────────────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyD5-uJ3vWCWygsjA3cQqGyyaCcQPZolZP4",
   authDomain: "minecraft-hardcore-log.firebaseapp.com",
@@ -164,57 +163,51 @@ const firebaseConfig = {
   messagingSenderId: "695119014155",
   appId: "1:695119014155:web:019aeb5ce85fd3f6ce9a0e"
 };
+// Mirror of plugin config — used to show player chips on dashboard
+const TRACKED_PLAYERS = ['belleke03', 'zwana', 'Guntter78NL'];
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-const db = firebase.firestore();
+const db   = firebase.firestore();
 
-// =============================================
-//  STATE
-// =============================================
+// ── STATE ────────────────────────────────────────────────────────────────────
 let st = {
-  view: 'login',      // 'login' | 'app'
+  view: 'login',
   tab: 'dashboard',
-  user: null,         // Firebase user object
-  username: '',       // display name stored in Firestore
+  user: null,
+  username: '',
   runs: [],
-  guideTab: 'basics',
-  timerSec: 0,
-  timerRunning: false,
-  timerInterval: null,
-  timerRunId: null,
-  deathRunId: null,
+  lb: [],
   modal: null,
   loginErr: '',
   regErr: '',
-  lb: [],
-  runsUnsub: null,    // Firestore listener unsubscribe
+  runsUnsub: null,
+  liveRunUnsub: null,
+  liveRun: null,        // current alive run doc — written by the mod
+  timerInterval: null,
 };
 
-// =============================================
-//  FIREBASE AUTH LISTENER — runs on page load
-// =============================================
+// ── AUTH ─────────────────────────────────────────────────────────────────────
 auth.onAuthStateChanged(async user => {
   if (user) {
     st.user = user;
-    // Load username from Firestore profile
     const prof = await db.collection('users').doc(user.uid).get();
     st.username = prof.exists ? (prof.data().username || user.email) : user.email;
     st.view = 'app';
     subscribeRuns();
+    subscribeLiveRun();
   } else {
-    st.user = null;
-    st.username = '';
-    st.view = 'login';
-    st.runs = [];
-    if (st.runsUnsub) { st.runsUnsub(); st.runsUnsub = null; }
+    st.user = null; st.username = ''; st.view = 'login';
+    st.runs = []; st.liveRun = null;
+    stopLiveTimer();
+    if (st.runsUnsub)    { st.runsUnsub();    st.runsUnsub    = null; }
+    if (st.liveRunUnsub) { st.liveRunUnsub(); st.liveRunUnsub = null; }
     render();
   }
 });
 
-// =============================================
-//  REAL-TIME RUNS LISTENER
-// =============================================
+// ── REAL-TIME LISTENERS ───────────────────────────────────────────────────────
+
 function subscribeRuns() {
   if (st.runsUnsub) st.runsUnsub();
   st.runsUnsub = db.collection('runs')
@@ -223,253 +216,141 @@ function subscribeRuns() {
     .onSnapshot(snap => {
       st.runs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       render();
-    }, err => {
-      // Index might not exist yet — fall back to unordered
+    }, () => {
+      // Fallback without orderBy
       st.runsUnsub = db.collection('runs')
         .where('uid', '==', st.user.uid)
         .onSnapshot(snap => {
-          st.runs = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => b.startTime - a.startTime);
+          st.runs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+            .sort((a, b) => b.startTime - a.startTime);
           render();
         });
     });
 }
 
-// =============================================
-//  AUTH ACTIONS
-// =============================================
-async function doLogin() {
-  const email = vget('liu').trim();
-  const pass  = vget('lip');
-  if (!email || !pass) { st.loginErr = 'Enter email and password.'; render(); return; }
-  try {
-    await auth.signInWithEmailAndPassword(email, pass);
-    // onAuthStateChanged handles the rest
-  } catch(e) {
-    st.loginErr = friendlyError(e.code);
+/**
+ * Watches for a run with status='alive'.
+ * The mod creates it when a tracked player joins, updates it every 30s,
+ * and sets status='dead' or 'completed' on the relevant event.
+ * This listener reacts instantly to every change.
+ */
+function subscribeLiveRun() {
+  if (st.liveRunUnsub) st.liveRunUnsub();
+  st.liveRunUnsub = db.collection('runs')
+    .where('uid', '==', st.user.uid)
+    .where('status', '==', 'alive')
+    .onSnapshot(snap => {
+      const prev = st.liveRun;
+      if (!snap.empty) {
+        const doc = snap.docs[0];
+        const wasNull = !prev;
+        const isNew = prev && prev.id !== doc.id;
+        st.liveRun = { id: doc.id, ...doc.data() };
+        if (wasNull || isNew) startLiveTimer();
+      } else {
+        st.liveRun = null;
+        stopLiveTimer();
+      }
+      // Update just the live section without full re-render
+      patchLiveSection();
+    });
+}
+
+// ── LIVE TIMER ────────────────────────────────────────────────────────────────
+// Client-side ticker seeded from run.startTime — accurate across refreshes.
+
+function startLiveTimer() {
+  stopLiveTimer();
+  st.timerInterval = setInterval(tickTimer, 1000);
+}
+function stopLiveTimer() {
+  if (st.timerInterval) { clearInterval(st.timerInterval); st.timerInterval = null; }
+}
+function tickTimer() {
+  if (!st.liveRun) return;
+  const el = document.getElementById('live-timer');
+  if (el) {
+    el.textContent = fmtT(Math.floor((Date.now() - st.liveRun.startTime) / 1000));
+  }
+}
+
+/** Updates only the live section div — avoids full page re-render. */
+function patchLiveSection() {
+  const el = document.getElementById('live-section');
+  if (el) {
+    el.innerHTML = buildLiveSection();
+    if (st.liveRun) startLiveTimer();
+  } else {
     render();
   }
 }
 
+// ── AUTH ACTIONS ──────────────────────────────────────────────────────────────
+async function doLogin() {
+  const email = vget('liu').trim(), pass = vget('lip');
+  if (!email || !pass) { st.loginErr = 'Enter email and password.'; render(); return; }
+  try { await auth.signInWithEmailAndPassword(email, pass); }
+  catch(e) { st.loginErr = friendlyError(e.code); render(); }
+}
+
 async function doRegister() {
-  const username = vget('regu').trim();
-  const email    = vget('rege').trim();
-  const pass     = vget('regp');
-  const pass2    = vget('regp2');
+  const username = vget('regu').trim(), email = vget('rege').trim();
+  const pass = vget('regp'), pass2 = vget('regp2');
   if (username.length < 2) { st.regErr = 'Username must be at least 2 characters.'; render(); return; }
   if (!email.includes('@')) { st.regErr = 'Enter a valid email address.'; render(); return; }
   if (pass.length < 6)      { st.regErr = 'Password must be at least 6 characters.'; render(); return; }
   if (pass !== pass2)       { st.regErr = "Passwords don't match."; render(); return; }
-
-  // Check username availability
-  // Strategy: username is truly taken ONLY if another currently-logged-in user owns it.
-  // We detect this by checking if the reserving /users doc has the SAME email as a
-  // currently active Firebase Auth session — which we can approximate by checking
-  // if the stored email differs from the one being registered.
-  // If the emails differ AND the /users doc exists, we still need to decide if it's active.
-  // The most robust client-side approach: treat it as taken only if stored email != new email.
-  // If same email is re-registering (e.g. after account delete), always allow.
   const ukey = username.toLowerCase();
   const taken = await db.collection('usernames').doc(ukey).get();
   if (taken.exists) {
-    const reservedUid = taken.data().uid;
-    const reservingUser = await db.collection('users').doc(reservedUid).get();
-    if (reservingUser.exists) {
-      const storedEmail = (reservingUser.data().email || '').toLowerCase();
-      const storedUsername = (reservingUser.data().username || '').toLowerCase();
-      // Only block if: username matches AND it's a DIFFERENT email (different person)
-      if (storedUsername === ukey && storedEmail !== email.toLowerCase()) {
-        st.regErr = 'Username already taken. Pick another.'; render(); return;
-      }
-      // Same email re-registering after account deletion, or username mismatch → clean up stale docs
-      await db.collection('users').doc(reservedUid).delete();
+    const ru = await db.collection('users').doc(taken.data().uid).get();
+    if (ru.exists) {
+      const se = (ru.data().email||'').toLowerCase(), su = (ru.data().username||'').toLowerCase();
+      if (su === ukey && se !== email.toLowerCase()) { st.regErr = 'Username already taken.'; render(); return; }
+      await db.collection('users').doc(taken.data().uid).delete();
     }
-    // Always clear the stale reservation before proceeding
     await db.collection('usernames').doc(ukey).delete();
   }
-
   try {
     const cred = await auth.createUserWithEmailAndPassword(email, pass);
-    const uid = cred.user.uid;
-    await db.collection('users').doc(uid).set({ username, email, created: Date.now() });
-    await db.collection('usernames').doc(ukey).set({ uid });
+    await db.collection('users').doc(cred.user.uid).set({ username, email, created: Date.now() });
+    await db.collection('usernames').doc(ukey).set({ uid: cred.user.uid });
     st.modal = null;
-    // onAuthStateChanged handles login
-  } catch(e) {
-    st.regErr = friendlyError(e.code);
-    render();
-  }
+  } catch(e) { st.regErr = friendlyError(e.code); render(); }
 }
 
-async function doLogout() {
-  stopTimer();
-  await auth.signOut();
-  // onAuthStateChanged handles cleanup
-}
+async function doLogout() { stopLiveTimer(); await auth.signOut(); }
 
 function friendlyError(code) {
-  const map = {
-    'auth/user-not-found': 'No account with that email.',
-    'auth/wrong-password': 'Wrong password.',
-    'auth/invalid-email': 'Invalid email address.',
-    'auth/email-already-in-use': 'Email already registered.',
-    'auth/weak-password': 'Password must be at least 6 characters.',
-    'auth/invalid-credential': 'Invalid email or password.',
-    'auth/too-many-requests': 'Too many attempts. Try again later.',
-  };
-  return map[code] || 'Something went wrong. Try again.';
-}
-
-// =============================================
-//  RUN ACTIONS (Firestore)
-// =============================================
-async function doCreateRun() {
-  const name    = vget('nr-name').trim() || 'Run #' + (st.runs.length + 1);
-  const version = vget('nr-ver') || '1.21.4';
-  const seed    = vget('nr-seed').trim();
-  const goal    = vget('nr-goal') || 'ender';
-  const notes   = vget('nr-notes').trim();
-  const ref = await db.collection('runs').add({
-    uid: st.user.uid,
-    username: st.username,
-    name, version, seed, goal, notes,
-    status: 'alive',
-    startTime: Date.now(),
-    endTime: null,
-    elapsed: 0,
-    deaths: []
-  });
-  // Auto-start the timer on the new run
-  st.timerRunId = ref.id;
-  st.timerSec = 0;
-  st.modal = null;
-  render();
-  startTimer(); // start after render so button is in DOM
-}
-
-async function doComplete(id) {
-  const r = st.runs.find(x => x.id === id);
-  if (!r) return;
-  const elapsed = Math.floor((Date.now() - r.startTime) / 1000);
-  await db.collection('runs').doc(id).update({
-    status: 'completed',
-    endTime: Date.now(),
-    elapsed
-  });
-  // Add to leaderboard collection
-  await db.collection('leaderboard').add({
-    uid: st.user.uid,
-    username: st.username,
-    runName: r.name,
-    version: r.version,
-    goal: r.goal,
-    elapsed,
-    date: Date.now()
-  });
-}
-
-async function doRecordDeath() {
-  if (!st.deathRunId) return;
-  const cause = vget('death-cause').trim() || 'Unknown cause';
-  const notes = vget('death-notes').trim();
-  const r = st.runs.find(x => x.id === st.deathRunId);
-  if (!r) return;
-  const elapsed = Math.floor((Date.now() - r.startTime) / 1000);
-  const deaths = [...(r.deaths || []), { cause, notes, time: elapsed }];
-  await db.collection('runs').doc(st.deathRunId).update({
-    status: 'dead',
-    endTime: Date.now(),
-    elapsed,
-    deaths
-  });
-  st.deathRunId = null;
-  st.modal = null;
-  render();
-}
-
-async function doDelete(id) {
-  if (!confirm('Delete this run permanently?')) return;
-  await db.collection('runs').doc(id).delete();
+  return ({
+    'auth/user-not-found':'No account with that email.',
+    'auth/wrong-password':'Wrong password.',
+    'auth/invalid-email':'Invalid email address.',
+    'auth/email-already-in-use':'Email already registered.',
+    'auth/weak-password':'Password must be at least 6 characters.',
+    'auth/invalid-credential':'Invalid email or password.',
+    'auth/too-many-requests':'Too many attempts. Try again later.',
+  })[code] || 'Something went wrong. Try again.';
 }
 
 async function loadLeaderboard() {
   try {
-    const snap = await db.collection('leaderboard').orderBy('elapsed', 'asc').limit(50).get();
+    const snap = await db.collection('leaderboard').orderBy('elapsed','asc').limit(50).get();
     st.lb = snap.docs.map(d => d.data());
-  } catch(e) {
-    // orderBy may need an index — fall back
+  } catch {
     try {
       const snap = await db.collection('leaderboard').get();
       st.lb = snap.docs.map(d => d.data()).sort((a,b) => a.elapsed - b.elapsed);
-    } catch(e2) { st.lb = []; }
+    } catch { st.lb = []; }
   }
   renderLeaderboardTable();
 }
 
-// =============================================
-//  TIMER
-// =============================================
-function startTimer() {
-  st.timerRunning = true;
-  if (st.timerInterval) clearInterval(st.timerInterval);
-  // The interval runs forever — even when render() replaces the DOM.
-  // updateTimerDisplay() finds the element by id each tick so it always works.
-  st.timerInterval = setInterval(async () => {
-    st.timerSec++;
-    updateTimerDisplay();
-    if (st.timerRunId && st.timerSec % 10 === 0) {
-      await db.collection('runs').doc(st.timerRunId).update({ elapsed: st.timerSec });
-    }
-  }, 1000);
-  syncTimerUI();
-}
-
-function stopTimer() {
-  st.timerRunning = false;
-  if (st.timerInterval) { clearInterval(st.timerInterval); st.timerInterval = null; }
-  syncTimerUI();
-}
-
-function resetTimer() {
-  stopTimer();
-  st.timerSec = 0;
-  updateTimerDisplay();
-}
-
-function updateTimerDisplay() {
-  // Update main timer display
-  const el = document.getElementById('td');
-  if (el) el.textContent = fmtT(st.timerSec);
-  // Also update any live run time on the dashboard active run cards
-  st.runs.filter(r => r.status === 'alive').forEach(r => {
-    const liveEl = document.getElementById('live-' + r.id);
-    if (liveEl) liveEl.textContent = fmtT(Math.floor((Date.now() - r.startTime) / 1000));
-  });
-}
-
-function syncTimerUI() {
-  // Restores correct button label and timer value after any render() call
-  updateTimerDisplay();
-  const btn = document.getElementById('timer-toggle');
-  if (btn) {
-    btn.textContent = st.timerRunning ? '⏸ Pause' : '▶ Start';
-    btn.className   = st.timerRunning ? 'btn btn-ghost' : 'btn btn-primary';
-  }
-  const sel = document.getElementById('timer-sel');
-  if (sel && st.timerRunId) sel.value = st.timerRunId;
-}
-
-// =============================================
-//  RENDER
-// =============================================
+// ── RENDER ────────────────────────────────────────────────────────────────────
 function render() {
   const root = document.getElementById('root');
-  if (st.view === 'login') {
-    root.innerHTML = renderLogin();
-  } else {
-    root.innerHTML = renderApp();
-    afterRender();
-    syncTimerUI(); // Always restore timer display + button state after DOM replacement
-  }
+  if (st.view === 'login') { root.innerHTML = renderLogin(); }
+  else { root.innerHTML = renderApp(); afterRender(); }
   bindEvents();
 }
 
@@ -477,8 +358,8 @@ function renderLogin() {
   return `
   <div class="flex-center">
     <div class="login-box">
-      <div class="pixel-title">⚔ Minecraft Hardcore Log</div>
-      <div class="sub">track your survival runs</div>
+      <div class="pixel-title">⚔ Minecraft<br>Hardcore Log</div>
+      <div class="sub">live run tracker</div>
       <div class="field"><label>Email</label><input id="liu" type="email" placeholder="you@example.com" autocomplete="email"/></div>
       <div class="field"><label>Password</label><input id="lip" type="password" placeholder="••••••••" autocomplete="current-password"/></div>
       ${st.loginErr ? `<div class="errmsg">${esc(st.loginErr)}</div>` : ''}
@@ -514,276 +395,178 @@ function renderApp() {
   <header>
     <div class="hinner">
       <div class="logo" id="logo-h">
-        <div class="creeper" id="hcreeper" style="width:30px;height:30px;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr)"></div>
+        <div class="creeper" id="hcreeper" style="width:30px;height:30px"></div>
         <div class="logo-text">HARDCORE<br><em>LOG</em></div>
       </div>
       <nav>
         ${['dashboard','runs','leaderboard'].map(t =>
           `<button class="nb${st.tab===t?' act':''}" data-tab="${t}">${
-            {dashboard:'Dashboard',runs:'My Runs',leaderboard:'Leaderboard'}[t]
+            {dashboard:'Dashboard',runs:'Runs',leaderboard:'Leaderboard'}[t]
           }</button>`).join('')}
       </nav>
-      <div class="user-chip"><span class="dot"></span>${esc(st.username)}</div>
+      <div class="user-chip"><span class="online-dot"></span>${esc(st.username)}</div>
       <button class="btn btn-ghost btn-sm" id="logout-btn" style="margin-left:.5rem">Log Out</button>
     </div>
   </header>
   <div id="app-body">
-    ${st.tab==='dashboard'  ? renderDashboard()   : ''}
-    ${st.tab==='runs'       ? renderRuns()        : ''}
-    ${st.tab==='leaderboard'? renderLeaderboard() : ''}
-  </div>
-  ${renderModals()}`;
+    ${st.tab === 'dashboard'   ? renderDashboard()   : ''}
+    ${st.tab === 'runs'        ? renderRuns()         : ''}
+    ${st.tab === 'leaderboard' ? renderLeaderboard()  : ''}
+  </div>`;
 }
 
-function renderModals() {
-  return `
-  ${st.modal==='newrun' ? `
-  <div class="overlay open" id="nr-ov">
-    <div class="modal">
-      <div class="mt">🌱 New Hardcore Run</div>
-      <div class="field"><label>Run Name</label><input id="nr-name" type="text" placeholder="e.g. The Iron Comeback #3"/></div>
-      <div class="field"><label>Version</label><select id="nr-ver"><option>1.21.11</option><option>1.21.10</option><option>1.21.8</option><option>1.21.7</option><option>1.21.6</option><option>1.21.5</option><option>1.21.4</option><option>1.21.3</option><option>1.21.2</option><option>1.21.1</option><option>1.21</option><option>1.20.6</option><option>1.20.5</option><option>1.20.4</option><option>1.20.3</option><option>1.20.2</option><option>1.20.1</option><option>1.20</option><option>1.19.4</option><option>1.19.3</option><option>1.19.2</option><option>1.19.1</option><option>1.19</option><option>1.18.2</option><option>1.18.1</option><option>1.18</option><option>1.17.1</option><option>1.17</option><option>1.16.5</option><option>1.16.4</option><option>1.16.3</option><option>1.16.2</option><option>1.16.1</option><option>1.16</option><option>1.15.2</option><option>1.15.1</option><option>1.15</option><option>1.14.4</option><option>1.14.3</option><option>1.14.2</option><option>1.14.1</option><option>1.14</option><option>1.13.2</option><option>1.13.1</option><option>1.13</option><option>1.12.2</option><option>1.12.1</option><option>1.12</option><option>1.11.2</option><option>1.11.1</option><option>1.11</option><option>1.10.2</option><option>1.10</option><option>1.9.4</option><option>1.9</option><option>1.8.9</option><option>1.8</option><option>1.7.10</option><option>1.7.2</option><option>1.6.4</option><option>1.6.2</option><option>1.5.2</option><option>1.5.1</option><option>1.4.7</option><option>1.4.2</option><option>1.3.2</option><option>1.2.5</option><option>1.1</option><option>1.0</option><option>Other</option></select></div>
-      <div class="field"><label>World Seed (optional)</label><input id="nr-seed" type="text" placeholder="-1234567890"/></div>
-      <div class="field"><label>Goal</label><select id="nr-goal"><option value="ender">Kill the Ender Dragon</option><option value="wither">Kill the Wither</option><option value="elder">Kill Elder Guardian</option><option value="survive">Survive as long as possible</option><option value="speedrun">Speedrun (Any%)</option></select></div>
-      <div class="field"><label>Notes</label><textarea id="nr-notes" placeholder="Strategy, biome notes..."></textarea></div>
-      <div class="ma"><button class="btn btn-ghost" id="close-nr">Cancel</button><button class="btn btn-primary" id="do-create">Start Run 🌱</button></div>
-    </div>
-  </div>` : ''}
-  ${st.modal==='death' ? `
-  <div class="overlay open" id="death-ov">
-    <div class="modal danger">
-      <div class="mt">💀 Record Death</div>
-      <p style="font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--muted);margin-bottom:1.1rem">This ends the run permanently. No respawn in Hardcore.</p>
-      <div class="field"><label>Cause of Death</label><input id="death-cause" type="text" placeholder="e.g. Creeper explosion at Y=-54"/></div>
-      <div class="field"><label>Notes</label><textarea id="death-notes" placeholder="What went wrong?"></textarea></div>
-      <div class="ma"><button class="btn btn-ghost" id="close-death">Cancel</button><button class="btn btn-danger" id="do-death">💀 RIP</button></div>
-    </div>
-  </div>` : ''}`;
-}
-
+// ── DASHBOARD ─────────────────────────────────────────────────────────────────
 function renderDashboard() {
-  const alive = st.runs.filter(r => r.status==='alive').length;
-  const dead  = st.runs.filter(r => r.status==='dead').length;
-  const done  = st.runs.filter(r => r.status==='completed');
-  const best  = done.length ? done.reduce((a,b) => a.elapsed < b.elapsed ? a : b) : null;
-  const aliveRuns = st.runs.filter(r => r.status==='alive');
+  const dead      = st.runs.filter(r => r.status === 'dead').length;
+  const completed = st.runs.filter(r => r.status === 'completed');
+  const best      = completed.length ? completed.reduce((a,b) => a.elapsed < b.elapsed ? a : b) : null;
+
   return `<div class="wrap">
-  <div class="ph"><div class="pt">Dashboard <em>${esc(st.username)}</em></div><div class="pd">Your hardcore survival stats</div></div>
-  <div class="stats">
-    <div class="sc g"><div class="sl">Active Runs</div><div class="sv">${alive}</div><div class="ss">currently alive</div></div>
-    <div class="sc r"><div class="sl">Deaths</div><div class="sv">${dead}</div><div class="ss">runs ended</div></div>
-    <div class="sc go"><div class="sl">Best Run</div><div class="sv" style="font-size:.9rem">${best ? fmtT(best.elapsed) : '--:--'}</div><div class="ss">${best ? esc(best.name) : 'no completions'}</div></div>
-    <div class="sc d"><div class="sl">Completions</div><div class="sv">${done.length}</div><div class="ss">goals achieved</div></div>
+  <div class="ph">
+    <div class="pt">Dashboard <em>${esc(st.username)}</em></div>
+    <div class="pd">Live — updated automatically by the server mod</div>
   </div>
-  <div class="timer-box">
-    <div class="tl">⏱ Live Session Timer</div>
-    <div class="td" id="td">${fmtT(st.timerSec)}</div>
-    <div class="tc">
-      <select id="timer-sel">
-        <option value="">— Select active run —</option>
-        ${aliveRuns.map(r => `<option value="${r.id}"${st.timerRunId===r.id?' selected':''}>${esc(r.name)}</option>`).join('')}
-      </select>
-      <button class="btn ${st.timerRunning?'btn-ghost':'btn-primary'}" id="timer-toggle">${st.timerRunning?'⏸ Pause':'▶ Start'}</button>
-      <button class="btn btn-ghost" id="timer-reset">↺ Reset</button>
+
+  <div class="stats">
+    <div class="sc g">
+      <div class="sl">Attempts</div>
+      <div class="sv">${st.runs.length}</div>
+      <div class="ss">total runs started</div>
+    </div>
+    <div class="sc r">
+      <div class="sl">Deaths</div>
+      <div class="sv">${dead}</div>
+      <div class="ss">runs ended in death</div>
+    </div>
+    <div class="sc go">
+      <div class="sl">Best Time</div>
+      <div class="sv" style="font-size:.9rem">${best ? fmtT(best.elapsed) : '--:--'}</div>
+      <div class="ss">${best ? esc(best.name) : 'no completions yet'}</div>
+    </div>
+    <div class="sc d">
+      <div class="sl">Completions</div>
+      <div class="sv">${completed.length}</div>
+      <div class="ss">dragon slain</div>
     </div>
   </div>
-  <div class="toolbar">
-    <h2>Active Run</h2>
-    <button class="btn btn-primary" id="open-nr-dash">+ Start New Run</button>
+
+  <div id="live-section">${buildLiveSection()}</div>
+
+  <div class="toolbar" style="margin-top:1.75rem">
+    <h2>Recent Runs</h2>
+    <button class="btn btn-ghost btn-sm" data-tab="runs">View All →</button>
   </div>
-  ${renderDashboardActiveRun()}
-  <div class="toolbar" style="margin-top:1.5rem"><h2>Recent Runs</h2><button class="btn btn-ghost btn-sm" data-tab="runs">View All →</button></div>
-  ${renderRunCards(st.runs.slice(0,5), false)}
+  ${buildRunList(st.runs.slice(0, 5))}
 </div>`;}
 
-function renderDashboardActiveRun() {
-  const active = st.runs.filter(r => r.status === 'alive');
-  if (!active.length) {
-    return `<div class="empty" style="padding:1.5rem;background:var(--panel);border:1px solid var(--border);border-radius:4px;border-left:4px solid var(--grass)">
-      <div style="font-family:'Share Tech Mono',monospace;font-size:.8rem;color:var(--muted)">No active run — click "Start New Run" to begin tracking</div>
+function buildLiveSection() {
+  if (!st.liveRun) {
+    return `
+    <div class="wait-box">
+      <div class="wi">🌙</div>
+      <div>
+        <div class="wait-title">No active run</div>
+        <div class="wait-sub">A run starts automatically when ${TRACKED_PLAYERS[0]} or ${TRACKED_PLAYERS[1]} joins the server</div>
+      </div>
     </div>`;
   }
-  const gm = {ender:'Ender Dragon',wither:'Wither',elder:'Elder Guardian',survive:'Survive',speedrun:'Speedrun'};
-  return active.map(r => `
-  <div class="run-card alive" style="border-left-width:4px;background:rgba(74,124,47,0.07)">
-    <div>
-      <div class="rn">${esc(r.name)}</div>
-      <div class="rm">
-        <span>📅 ${new Date(r.startTime).toLocaleDateString()}</span>
-        <span class="vbadge">${r.version}</span>
-        ${r.seed ? `<span style="color:#6b6b7a;font-size:.68rem">seed:${esc(r.seed)}</span>` : ''}
-        <span>${gm[r.goal]||r.goal}</span>
+
+  const r    = st.liveRun;
+  const secs = Math.floor((Date.now() - r.startTime) / 1000);
+  const gm   = {ender:'Kill the Ender Dragon',wither:'Kill the Wither',elder:'Kill Elder Guardian',survive:'Survive',speedrun:'Speedrun'};
+  const players = r.trackedPlayers || TRACKED_PLAYERS;
+
+  return `
+  <div class="live-card ${r.status}">
+    <div class="lc-row">
+      <div class="lc-name">${esc(r.name)}</div>
+      <div class="lc-badge ${r.status}">
+        <div class="pulse"></div>
+        ${r.status === 'alive' ? 'RUN IN PROGRESS' : '💀 RUN ENDED'}
       </div>
     </div>
-    <div class="rtime" id="live-${r.id}">${fmtT(Math.floor((Date.now()-r.startTime)/1000))}</div>
-    <div class="rack">
-      <button class="btn btn-primary btn-sm" data-complete="${r.id}">🏆 Finish</button>
-      <button class="btn btn-danger btn-sm" data-kill="${r.id}">💀 I Died</button>
+
+    <div class="big-timer${r.status==='dead'?' dead':''}" id="live-timer">${fmtT(secs)}</div>
+
+    <div class="players-row">
+      ${players.map(p => `
+        <div class="pchip">
+          <img src="${skinUrl(p)}" alt="" onerror="this.style.display='none'">
+          <span class="pchip-name">${esc(p)}</span>
+        </div>`).join('')}
     </div>
-  </div>`).join('');
+
+    ${r.lastDeath ? `<div class="death-msg">☠ ${esc(r.lastDeath)}</div>` : ''}
+
+    <div class="lc-meta">
+      <span>📅 ${new Date(r.startTime).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span>
+      <span class="vbadge">${esc(r.version)}</span>
+      <span>🎯 ${gm[r.goal] || esc(r.goal)}</span>
+      ${r.seed ? `<span>🌱 ${esc(r.seed)}</span>` : ''}
+      ${r.notes ? `<span>📝 ${esc(r.notes)}</span>` : ''}
+    </div>
+  </div>`;
 }
 
+// ── RUNS TAB ──────────────────────────────────────────────────────────────────
 function renderRuns() {
+  const alive     = st.runs.filter(r => r.status==='alive').length;
+  const dead      = st.runs.filter(r => r.status==='dead').length;
+  const completed = st.runs.filter(r => r.status==='completed').length;
+
   return `<div class="wrap">
-  <div class="ph"><div class="pt">My <em>Runs</em></div><div class="pd">Every hardcore attempt — start new runs from the Dashboard</div></div>
-  <div class="toolbar"><h2>All Runs <span class="badge">${st.runs.length} run${st.runs.length!==1?'s':''}</span></h2></div>
-  ${renderRunCards(st.runs, true)}
+  <div class="ph">
+    <div class="pt">All <em>Runs</em></div>
+    <div class="pd">Every attempt — automatically tracked by the server mod</div>
+  </div>
+  <div style="font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--muted);margin-bottom:1.25rem">
+    ${st.runs.length} total &nbsp;·&nbsp;
+    <span style="color:var(--grass-l)">${alive} alive</span> &nbsp;·&nbsp;
+    <span style="color:var(--redg)">${dead} dead</span> &nbsp;·&nbsp;
+    <span style="color:var(--gold)">${completed} completed</span>
+  </div>
+  ${buildRunList(st.runs)}
 </div>`;}
 
-function renderRunCards(runs, actions) {
-  if (!runs.length) return `<div class="empty"><div class="empty-icon">⚔</div>No runs yet. Start your first hardcore run!</div>`;
+function buildRunList(runs) {
+  if (!runs.length) return `<div class="empty"><div class="empty-icon">⚔</div>No runs yet — join the server to begin!</div>`;
   const gm = {ender:'Ender Dragon',wither:'Wither',elder:'Elder Guardian',survive:'Survive',speedrun:'Speedrun'};
   return `<div class="runs-list">${runs.map(r => {
-    const el = r.status!=='alive' ? (r.elapsed||0) : Math.floor((Date.now()-r.startTime)/1000);
-    const act = actions ? `<div class="rack">
-      ${r.status==='alive' ? `<button class="ib" data-complete="${r.id}" title="Mark Completed">✅</button>` : ''}
-      ${r.status==='alive' ? `<button class="ib kill" data-kill="${r.id}" title="Record Death">💀</button>` : ''}
-      <button class="ib kill" data-del="${r.id}" title="Delete">🗑</button>
-    </div>` : '';
-    return `<div class="run-card ${r.status}">
-      <div>
-        <div class="rn">${esc(r.name)}</div>
-        <div class="rm">
-          <span>📅 ${new Date(r.startTime).toLocaleDateString()}</span>
-          <span class="vbadge">${r.version}</span>
-          ${r.seed ? `<span style="color:#6b6b7a;font-size:.68rem">seed:${esc(r.seed)}</span>` : ''}
-          <span>${gm[r.goal]||r.goal}</span>
-          ${r.deaths&&r.deaths.length ? `<span>💀 ${r.deaths.length}</span>` : ''}
+    const elapsed = r.status !== 'alive' ? (r.elapsed || 0) : Math.floor((Date.now() - r.startTime) / 1000);
+    return `<div class="rc ${r.status}">
+      <div class="rc-inner">
+        <div>
+          <div class="rn">${esc(r.name)}</div>
+          <div class="rm">
+            <span>📅 ${new Date(r.startTime).toLocaleDateString()}</span>
+            <span class="vbadge">${esc(r.version)}</span>
+            <span>${gm[r.goal] || esc(r.goal)}</span>
+            ${r.seed ? `<span>🌱 ${esc(r.seed)}</span>` : ''}
+          </div>
+          ${r.lastDeath ? `<div class="death-line">☠ ${esc(r.lastDeath)}</div>` : ''}
         </div>
-        ${r.status==='dead'&&r.deaths&&r.deaths.length ? `<div style="font-size:.68rem;color:var(--redg);font-family:'Share Tech Mono',monospace;margin-top:.3rem">☠ ${esc(r.deaths[r.deaths.length-1].cause)}</div>` : ''}
-      </div>
-      <div class="rtime">${fmtT(el)}</div>
-      <div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap">
-        <span class="rtag ${r.status}">${r.status==='alive'?'💚 Alive':r.status==='dead'?'💀 Dead':'🏆 Done'}</span>
-        ${act}
+        <div class="rtime">${fmtT(elapsed)}</div>
+        <span class="rtag ${r.status}">
+          ${r.status==='alive'?'💚 Alive':r.status==='dead'?'💀 Dead':'🏆 Done'}
+        </span>
       </div>
     </div>`;
   }).join('')}</div>`;}
 
-function renderGuide() {
-  const tabs = [
-    {id:'basics',icon:'🌱',label:'Getting Started'},{id:'early',icon:'🪨',label:'Early Game'},
-    {id:'mid',icon:'⚔',label:'Mid Game'},{id:'nether',icon:'🔥',label:'The Nether'},
-    {id:'end',icon:'🐉',label:'The End'},{id:'tips',icon:'💎',label:'Pro Tips'},
-    {id:'deaths',icon:'💀',label:'Common Deaths'},
-  ];
-  return `<div class="wrap">
-  <div class="ph"><div class="pt">How-To <em>Guide</em></div><div class="pd">Complete Minecraft Hardcore reference</div></div>
-  <div class="guide-wrap">
-    <div class="gnav">
-      <div class="gnav-h">Chapters</div>
-      ${tabs.map(t => `<div class="gni${st.guideTab===t.id?' act':''}" data-guide="${t.id}"><span style="font-size:14px">${t.icon}</span>${t.label}</div>`).join('')}
-    </div>
-    <div>${renderGuideContent()}</div>
-  </div>
-</div>`;}
-
-function gc(icon,title,label,diff,open,body){
-  const id='gc'+Math.random().toString(36).slice(2,8);
-  return `<div class="gcard">
-  <div class="gch" onclick="toggleCard('${id}')">
-    <span style="font-size:1.1rem">${icon}</span><div class="gct">${title}</div>
-    <span class="diff ${diff}">${label}</span>
-    <span id="arr${id}" style="color:var(--muted);font-size:.75rem">${open?'▲':'▼'}</span>
-  </div>
-  <div class="gcb${open?' open':''}" id="${id}">${body}</div>
-</div>`;}
-
-function toggleCard(id){
-  const el=document.getElementById(id),ar=document.getElementById('arr'+id);
-  if(!el)return;el.classList.toggle('open');
-  if(ar)ar.textContent=el.classList.contains('open')?'▲':'▼';
-}
-
-function renderGuideContent(){
-  const t=st.guideTab;
-  if(t==='basics')return gc('🎮','What is Hardcore Mode?','Essential','easy',true,`
-    <div class="gstep"><div class="snum">1</div><div class="stxt">Hardcore is Minecraft's hardest difficulty. When you die, the world is <strong>permanently deleted</strong>.</div></div>
-    <div class="gstep"><div class="snum">2</div><div class="stxt">Create: Singleplayer → Create New World → Game Mode → <strong>Hardcore</strong>. Difficulty locks to Hard automatically.</div></div>
-    <div class="gstep"><div class="snum">3</div><div class="stxt">You have <strong>10 hearts</strong>. Mobs deal full damage. Hunger can kill. Every decision matters permanently.</div></div>
-    <div class="tip"><div class="tip-l">💡 Tip</div>After death, spectator mode lets you explore your old world — but you cannot interact or respawn.</div>
-  `)+gc('🌅','Day 1 Priorities','Beginner','easy',true,`
-    <ul class="cl">
-      <li>Punch trees immediately — collect at least 3 logs</li>
-      <li>Craft a crafting table and wooden pickaxe first</li>
-      <li>Mine 15–20 cobblestone, craft stone sword, axe, pickaxe, shovel</li>
-      <li>Collect 12+ food items before nightfall</li>
-      <li>Build or find shelter before first night (~5 min in)</li>
-      <li>Craft a furnace. A bed if you find wool.</li>
-    </ul>
-    <div class="warn"><div class="warn-l">⚠ Warning</div>Don't go underground on day 1. Establish food, tools, and shelter on the surface first.</div>
-  `);
-  if(t==='early')return gc('🏠','Building Your First Base','Early Game','easy',true,`
-    <div class="gstep"><div class="snum">1</div><div class="stxt">Walls at least <strong>3 blocks high</strong> to stop spiders. Use cobblestone — blast-resistant.</div></div>
-    <div class="gstep"><div class="snum">2</div><div class="stxt">Light every surface to <strong>light level 8+</strong>. Prevents mob spawning inside and around your base.</div></div>
-    <div class="gstep"><div class="snum">3</div><div class="stxt">Add a <strong>window facing your door</strong> to check for creepers before opening it.</div></div>
-    <div class="tip"><div class="tip-l">💡 Tip</div>Build into a hillside. Natural stone walls have far better blast resistance than surface builds.</div>
-  `)+gc('⛏','Safe Mining in Hardcore','Intermediate','med',false,`
-    <div class="gstep"><div class="snum">1</div><div class="stxt">Mine at <strong>Y = -54 to -58</strong> for peak diamond exposure (1.18+).</div></div>
-    <div class="gstep"><div class="snum">2</div><div class="stxt"><strong>Branch mine:</strong> one main tunnel, branches every 3 blocks. Maximises coverage, minimises mob encounters.</div></div>
-    <div class="gstep"><div class="snum">3</div><div class="stxt">Always carry a <strong>water bucket</strong>. Pour it on lava to convert to obsidian before crossing.</div></div>
-    <div class="warn"><div class="warn-l">⚠ Critical</div>Never mine directly above or below yourself. Gravel and sand fall and can suffocate you.</div>
-  `);
-  if(t==='mid')return gc('🛡','Gear Progression Checklist','Mid Game','med',true,`
-    <ul class="cl">
-      <li>Full iron armour before any serious cave exploration</li>
-      <li>Shield (6 wood planks + 1 iron ingot) — use it constantly</li>
-      <li>Full diamond armour with Protection IV on every piece</li>
-      <li>Diamond sword: Sharpness V, Looting III</li>
-      <li>Bow: Power V, Infinity or Flame</li>
-      <li>Totem of Undying in offhand — always</li>
-      <li>8+ golden apples before any boss fight</li>
-    </ul>
-  `)+gc('✨','Essential Enchantments','Mid Game','med',false,`
-    <div class="gstep"><div class="snum">1</div><div class="stxt"><strong>Protection IV</strong> on all armour — reduces all damage by ~64%.</div></div>
-    <div class="gstep"><div class="snum">2</div><div class="stxt"><strong>Feather Falling IV</strong> on boots — fall damage kills more hardcore players than anything else.</div></div>
-    <div class="gstep"><div class="snum">3</div><div class="stxt"><strong>Mending</strong> on everything — repairs items with XP so you never permanently lose gear.</div></div>
-    <div class="tip"><div class="tip-l">💡 Tip</div>Level 30 enchants with 15 bookshelves give the best results. Combine books on an anvil for max-level enchants.</div>
-  `);
-  if(t==='nether')return gc('🔥','Entering the Nether Safely','Dangerous','hard',true,`
-    <div class="warn"><div class="warn-l">⚠ Danger Zone</div>The Nether is where most hardcore runs end. Minimum: full diamond armour with Protection IV.</div>
-    <div class="gstep"><div class="snum">1</div><div class="stxt">Build your portal <strong>inside a protected room</strong>. Frame the nether-side exit to prevent ghasts spawning at it.</div></div>
-    <div class="gstep"><div class="snum">2</div><div class="stxt"><strong>Mark your portal visibly.</strong> Getting lost in the Nether is a guaranteed death.</div></div>
-    <div class="gstep"><div class="snum">3</div><div class="stxt">Wear at least <strong>one piece of gold armour</strong> to keep Piglins neutral.</div></div>
-    <div class="gstep"><div class="snum">4</div><div class="stxt">Ghast fireballs can be <strong>deflected by hitting them</strong> — one-shots the ghast.</div></div>
-    <ul class="cl"><li>Carry 4+ Fire Resistance potions at all times</li><li>Never walk near lava without Fire Resistance active</li><li>Leave torch breadcrumbs back to portal</li></ul>
-  `);
-  if(t==='end')return gc('🐉','Ender Dragon Boss Fight','Boss Fight','hard',true,`
-    <div class="gstep"><div class="snum">1</div><div class="stxt"><strong>Required prep:</strong> 12 Eyes of Ender, Prot IV armour, power bow, sword, golden apples, 2+ Totems, Healing II potions.</div></div>
-    <div class="gstep"><div class="snum">2</div><div class="stxt">Destroy all <strong>End Crystals</strong> on obsidian pillars before engaging.</div></div>
-    <div class="gstep"><div class="snum">3</div><div class="stxt">Attack the dragon's <strong>head for 2x damage</strong>. When it hovers over the fountain — your window.</div></div>
-    <div class="gstep"><div class="snum">4</div><div class="stxt">If the dragon charges, <strong>dodge sideways</strong>. Shield up if you can't clear the hitbox.</div></div>
-    <div class="tip"><div class="tip-l">💡 Strategy</div>Bring a bed. Sleeping in The End causes an explosion. Detonate it on the fountain when the dragon perches.</div>
-    <div class="warn"><div class="warn-l">⚠ Watch Out</div>Endermen are extremely aggressive. Avoid eye contact. Ender pearl away from groups immediately.</div>
-  `);
-  if(t==='tips')return gc('💎','Advanced Survival Tips','Pro Tips','easy',true,`
-    <ul class="cl">
-      <li><strong>Totem of Undying in offhand always</strong> — the moment you have one it never leaves that slot</li>
-      <li><strong>Never sprint while looking down</strong> — most cliff deaths happen exactly this way</li>
-      <li>Memorise a <strong>fixed hotbar layout</strong> — muscle memory saves lives in panic</li>
-      <li>Build a <strong>safe house every 500 blocks</strong> while exploring</li>
-      <li><strong>20+ cooked food items minimum</strong> before any dangerous expedition</li>
-      <li><strong>Ender Pearl as a panic button</strong> — pearl to safety if about to die</li>
-      <li><strong>Never go AFK</strong> outside a bed or fully enclosed, lit room</li>
-    </ul>
-  `);
-  if(t==='deaths')return gc('💀','Most Common Hardcore Deaths','Awareness','hard',true,`
-    <div class="dli"><div style="font-size:1.4rem">💥</div><div><div class="dic">Creeper Explosion</div><div class="dim">Prevention: Scan surroundings constantly. Keep 3+ block distance. Shield up in caves.</div></div></div>
-    <div class="dli"><div style="font-size:1.4rem">🪨</div><div><div class="dic">Fall Damage</div><div class="dim">Prevention: Feather Falling IV boots. Never jump without looking down first.</div></div></div>
-    <div class="dli"><div style="font-size:1.4rem">🔥</div><div><div class="dic">Lava in the Nether</div><div class="dim">Prevention: Fire Resistance active at all times. Never walk near lava edges.</div></div></div>
-    <div class="dli"><div style="font-size:1.4rem">😵</div><div><div class="dic">Starvation</div><div class="dim">Prevention: Always carry 20+ food. Farm early. Never let hunger empty while exploring.</div></div></div>
-    <div class="dli"><div style="font-size:1.4rem">👻</div><div><div class="dic">Getting Surrounded by Mobs</div><div class="dim">Prevention: Fight in doorways. Retreat when HP drops below 6 hearts.</div></div></div>
-  `);
-  return `<div class="empty"><div class="empty-icon">📖</div>Select a chapter</div>`;
-}
-
+// ── LEADERBOARD ───────────────────────────────────────────────────────────────
 function renderLeaderboard() {
-  const gm = {ender:'Ender Dragon',wither:'Wither',elder:'Elder Guardian',survive:'Survive',speedrun:'Speedrun'};
   return `<div class="wrap">
-  <div class="ph"><div class="pt">Leader<em>board</em></div><div class="pd">Top completions across all players — updated live</div></div>
+  <div class="ph">
+    <div class="pt">Leader<em>board</em></div>
+    <div class="pd">Completed runs ranked by fastest time — all players</div>
+  </div>
   <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden">
     <table class="lbt">
-      <thead><tr><th>#</th><th>Player</th><th>Run</th><th>Version</th><th>Time</th><th>Goal</th><th>Date</th></tr></thead>
+      <thead>
+        <tr>
+          <th>#</th><th>Player</th><th>Run</th><th>Version</th><th>Time</th><th>Goal</th><th>Date</th>
+        </tr>
+      </thead>
       <tbody id="lb-tbody">
         <tr><td colspan="7" class="empty" style="padding:1.5rem">Loading...</td></tr>
       </tbody>
@@ -796,7 +579,7 @@ function renderLeaderboardTable() {
   if (!tbody) return;
   const gm = {ender:'Ender Dragon',wither:'Wither',elder:'Elder Guardian',survive:'Survive',speedrun:'Speedrun'};
   if (!st.lb.length) {
-    tbody.innerHTML = `<tr><td colspan="7" class="empty" style="padding:1.5rem">No completions yet — be the first! 🏆</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" class="empty" style="padding:1.5rem">No completions yet — slay the dragon! 🐉</td></tr>`;
     return;
   }
   tbody.innerHTML = st.lb.map((r, i) => {
@@ -805,25 +588,29 @@ function renderLeaderboardTable() {
     const rc = i===0?'r1':i===1?'r2':i===2?'r3':'';
     return `<tr>
       <td><span class="lbr ${rc}">${rk}</span></td>
-      <td><span class="lbp${isYou?' lbyou':''}">${esc(r.username)}${isYou?' (you)':''}</span></td>
+      <td>
+        <div class="lbplayer${isYou?' lbyou':''}">
+          <img class="skin-head" src="${skinUrl(esc(r.username))}" alt="" loading="lazy" onerror="this.style.display='none'">
+          ${esc(r.username)}${isYou?' <span style="font-size:.65rem;opacity:.7">(you)</span>':''}
+        </div>
+      </td>
       <td>${esc(r.runName)}</td>
-      <td><span class="vbadge">${r.version}</span></td>
+      <td><span class="vbadge">${esc(r.version)}</span></td>
       <td><span class="lbtime">${fmtT(r.elapsed)}</span></td>
-      <td style="font-size:.7rem">${gm[r.goal]||r.goal}</td>
+      <td style="font-size:.7rem">${gm[r.goal]||esc(r.goal)}</td>
       <td style="font-size:.7rem">${new Date(r.date).toLocaleDateString()}</td>
     </tr>`;
   }).join('');
 }
 
+// ── AFTER RENDER ──────────────────────────────────────────────────────────────
 function afterRender() {
   buildCreeper('hcreeper');
-  if (st.tab === 'dashboard') updateTimerDisplay();
+  if (st.tab === 'dashboard' && st.liveRun) startLiveTimer();
   if (st.tab === 'leaderboard') loadLeaderboard();
 }
 
-// =============================================
-//  EVENT BINDING
-// =============================================
+// ── EVENTS ────────────────────────────────────────────────────────────────────
 function bindEvents() {
   on('do-login', doLogin);
   on('lip', null, 'keydown', e => { if (e.key==='Enter') doLogin(); });
@@ -833,38 +620,36 @@ function bindEvents() {
   on('do-reg', doRegister);
   on('logout-btn', doLogout);
   on('logo-h', () => setTab('dashboard'));
-  document.querySelectorAll('[data-tab]').forEach(el => el.addEventListener('click', () => setTab(el.dataset.tab)));
-  document.querySelectorAll('[data-guide]').forEach(el => el.addEventListener('click', () => { st.guideTab=el.dataset.guide; render(); }));
-  on('open-nr-dash', () => { st.modal='newrun'; render(); });
-  on('close-nr', () => { st.modal=null; render(); });
-  on('nr-ov', e => { if (e.target.id==='nr-ov') { st.modal=null; render(); }});
-  on('do-create', doCreateRun);
-  on('close-death', () => { st.modal=null; render(); });
-  on('death-ov', e => { if (e.target.id==='death-ov') { st.modal=null; render(); }});
-  on('do-death', doRecordDeath);
-  document.querySelectorAll('[data-complete]').forEach(el => el.addEventListener('click', () => doComplete(el.dataset.complete)));
-  document.querySelectorAll('[data-kill]').forEach(el => el.addEventListener('click', () => { st.deathRunId=el.dataset.kill; st.modal='death'; render(); }));
-  document.querySelectorAll('[data-del]').forEach(el => el.addEventListener('click', () => doDelete(el.dataset.del)));
-  on('timer-toggle', () => st.timerRunning ? stopTimer() : startTimer());
-  on('timer-reset', resetTimer);
-  on('timer-sel', null, 'change', e => { st.timerRunId = e.target.value || null; });
+  document.querySelectorAll('[data-tab]').forEach(el =>
+    el.addEventListener('click', () => setTab(el.dataset.tab)));
 }
 
+// ── UTILS ─────────────────────────────────────────────────────────────────────
 function on(id, fn, evt='click', fn2=null) {
   const el = document.getElementById(id);
   if (el) el.addEventListener(fn2 ? evt : 'click', fn2 || fn);
 }
-function vget(id) { const el=document.getElementById(id); return el?el.value:''; }
-function setTab(t) { stopTimer(); st.tab=t; render(); }
-function fmtT(s) { s=Math.max(0,Math.floor(s)); return `${p(Math.floor(s/3600))}:${p(Math.floor((s%3600)/60))}:${p(s%60)}`; }
-function p(n) { return String(n).padStart(2,'0'); }
-function esc(s) { if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function vget(id) { const el = document.getElementById(id); return el ? el.value : ''; }
+function setTab(t) { st.tab = t; render(); }
+function fmtT(s) {
+  s = Math.max(0, Math.floor(s));
+  return `${p(Math.floor(s/3600))}:${p(Math.floor((s%3600)/60))}:${p(s%60)}`;
+}
+function p(n) { return String(n).padStart(2, '0'); }
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function skinUrl(u) { return `https://mc-heads.net/avatar/${encodeURIComponent(u)}/32`; }
 function buildCreeper(id) {
-  const el=document.getElementById(id); if(!el)return;
-  const px=[0,0,0,0,0,0,1,0,1,0,0,0,1,0,0,0,1,1,1,0,0,1,0,1,0];
-  el.style.display='grid'; el.style.gridTemplateColumns='repeat(5,1fr)'; el.style.gridTemplateRows='repeat(5,1fr)';
-  el.innerHTML='';
-  px.forEach(v=>{ const d=document.createElement('div'); d.style.background=v?'rgba(0,0,0,.55)':'transparent'; el.appendChild(d); });
+  const el = document.getElementById(id); if (!el) return;
+  el.style.cssText = 'display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);width:30px;height:30px;background:var(--grass);box-shadow:0 0 8px rgba(94,168,50,.3)';
+  el.innerHTML = '';
+  [0,0,0,0,0,0,1,0,1,0,0,0,1,0,0,0,1,1,1,0,0,1,0,1,0].forEach(v => {
+    const d = document.createElement('div');
+    d.style.background = v ? 'rgba(0,0,0,.55)' : 'transparent';
+    el.appendChild(d);
+  });
 }
 </script>
 </body>
