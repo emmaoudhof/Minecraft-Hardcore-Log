@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HardcoreLog — Minecraft Hardcore Tracker</title>
+<title>Hardcore Log — belleke03 & zwana</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{--grass:#4a7c2f;--grass-l:#5ea832;--bedrock:#0f0f18;--panel:#16161f;--panel2:#1c1c2a;--red:#d93636;--redg:#ff4444;--gold:#f5c518;--diamond:#4de8f5;--white:#f0f0f0;--muted:rgba(255,255,255,0.45);--border:rgba(255,255,255,0.07)}
@@ -11,34 +11,17 @@
 html,body{height:100%;background:var(--bedrock);color:var(--white);font-family:'Nunito',sans-serif;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.012) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;z-index:0}
 #root{position:relative;z-index:1;min-height:100vh}
-.flex-center{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(94,168,50,.5)}70%{box-shadow:0 0 0 8px rgba(94,168,50,0)}}
-@keyframes deathFlash{0%,100%{border-left-color:var(--red)}50%{border-left-color:var(--redg)}}
-
-/* ── BUTTONS ── */
-.btn{font-family:'Share Tech Mono',monospace;font-size:.78rem;padding:.5rem 1.1rem;border:none;cursor:pointer;border-radius:3px;transition:all .15s;letter-spacing:.05em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.35rem}
-.btn-primary{background:var(--grass);color:#fff;box-shadow:0 2px 0 rgba(0,0,0,.4)}.btn-primary:hover{background:var(--grass-l)}
-.btn-ghost{background:rgba(255,255,255,.05);color:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.1)}.btn-ghost:hover{background:rgba(255,255,255,.1);color:var(--white)}
-.btn-sm{padding:.3rem .65rem;font-size:.68rem}.btn-block{width:100%;justify-content:center;padding:.7rem}
-
-/* ── FORM ── */
-.field{margin-bottom:1.1rem}
-.field label{display:block;font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem}
-.field input{width:100%;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.09);border-radius:3px;padding:.6rem .8rem;color:var(--white);font-family:'Share Tech Mono',monospace;font-size:.82rem;outline:none;transition:border-color .15s}
-.field input:focus{border-color:var(--grass)}
-.errmsg{background:rgba(217,54,54,.12);border:1px solid rgba(217,54,54,.3);border-radius:3px;padding:.55rem .8rem;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:#ff7070;margin-top:.5rem}
-
-/* ── LOGIN ── */
-.login-box{background:var(--panel);border:1px solid var(--border);border-top:3px solid var(--grass);border-radius:6px;padding:2.5rem;width:100%;max-width:380px;animation:fadeUp .35s ease}
-.pixel-title{font-family:'Press Start 2P',monospace;font-size:.8rem;color:var(--grass-l);text-align:center;margin-bottom:.4rem;line-height:1.7}
-.sub{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--muted);text-align:center;margin-bottom:2rem}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(94,168,50,.5)}70%{box-shadow:0 0 0 10px rgba(94,168,50,0)}}
+@keyframes redpulse{0%,100%{box-shadow:0 0 0 0 rgba(217,54,54,.5)}70%{box-shadow:0 0 0 10px rgba(217,54,54,0)}}
+@keyframes deathFlash{0%,100%{border-left-color:var(--red);background:rgba(217,54,54,.04)}50%{border-left-color:var(--redg);background:rgba(217,54,54,.08)}}
 
 /* ── HEADER ── */
 header{background:rgba(10,10,18,.97);border-bottom:2px solid var(--grass);padding:0 1.5rem;position:sticky;top:0;z-index:50}
-.hinner{max-width:1100px;margin:0 auto;display:flex;align-items:center;height:58px;gap:.5rem}
-.logo{display:flex;align-items:center;gap:.6rem;cursor:pointer;flex-shrink:0}
+.hinner{max-width:1100px;margin:0 auto;display:flex;align-items:center;height:58px;gap:.75rem}
+.logo{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
 .creeper{background:var(--grass);display:grid;box-shadow:0 0 8px rgba(94,168,50,.3)}
 .logo-text{font-family:'Press Start 2P',monospace;font-size:.65rem;line-height:1.5;color:var(--white)}
 .logo-text em{color:var(--redg);font-style:normal}
@@ -46,10 +29,12 @@ nav{display:flex;gap:.15rem;margin-left:auto}
 .nb{background:none;border:1px solid transparent;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:.75rem;padding:.35rem .8rem;cursor:pointer;border-radius:3px;transition:all .15s}
 .nb:hover{background:rgba(255,255,255,.06);color:var(--white)}
 .nb.act{border-color:var(--grass);color:var(--grass-l);background:rgba(74,124,47,.1)}
-.user-chip{display:flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:3px;padding:.3rem .7rem;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--gold);margin-left:.75rem;flex-shrink:0}
-.online-dot{width:6px;height:6px;background:var(--grass-l);border-radius:50%;animation:blink 2s infinite;flex-shrink:0}
+.live-chip{display:flex;align-items:center;gap:.4rem;background:rgba(94,168,50,.08);border:1px solid rgba(94,168,50,.2);border-radius:3px;padding:.3rem .7rem;font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--grass-l);margin-left:.5rem}
+.live-chip.offline{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.08);color:var(--muted)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--grass-l);animation:pulse 2s infinite;flex-shrink:0}
+.live-chip.offline .live-dot{background:var(--muted);animation:blink 2s infinite}
 
-/* ── PAGE ── */
+/* ── LAYOUT ── */
 .wrap{max-width:1100px;margin:0 auto;padding:1.75rem 1.25rem}
 .ph{margin-bottom:1.75rem}
 .pt{font-family:'Press Start 2P',monospace;font-size:1rem;margin-bottom:.35rem}
@@ -58,6 +43,8 @@ nav{display:flex;gap:.15rem;margin-left:auto}
 .vbadge{background:rgba(77,232,245,.08);border:1px solid rgba(77,232,245,.18);border-radius:2px;padding:.1rem .4rem;font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--diamond);white-space:nowrap}
 .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.6rem}
 .toolbar h2{font-family:'Press Start 2P',monospace;font-size:.72rem;color:rgba(255,255,255,.8)}
+.btn{font-family:'Share Tech Mono',monospace;font-size:.68rem;padding:.3rem .65rem;border:none;cursor:pointer;border-radius:3px;transition:all .15s;letter-spacing:.05em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.35rem;background:rgba(255,255,255,.05);color:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.1)}
+.btn:hover{background:rgba(255,255,255,.1);color:var(--white)}
 
 /* ── STATS ── */
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:.85rem;margin-bottom:1.75rem}
@@ -69,49 +56,55 @@ nav{display:flex;gap:.15rem;margin-left:auto}
 .sc.r .sv{color:var(--redg)}.sc.go .sv{color:var(--gold)}.sc.d .sv{color:var(--diamond)}
 .ss{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--muted);margin-top:.35rem}
 
-/* ── LIVE RUN CARD ── */
-.live-card{background:var(--panel2);border:1px solid rgba(94,168,50,.2);border-left:4px solid var(--grass);border-radius:6px;padding:1.5rem 1.75rem;margin-bottom:1.75rem;animation:fadeUp .3s ease;position:relative;overflow:hidden}
-.live-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top left,rgba(94,168,50,.06) 0%,transparent 60%);pointer-events:none}
-.live-card.dead{border-color:rgba(217,54,54,.25);border-left-color:var(--red);animation:deathFlash 1.5s ease 3}
-.live-card.dead::before{background:radial-gradient(ellipse at top left,rgba(217,54,54,.06) 0%,transparent 60%)}
-.lc-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem}
-.lc-name{font-family:'Press Start 2P',monospace;font-size:.72rem;color:var(--white)}
-.lc-badge{display:flex;align-items:center;gap:.4rem;font-family:'Share Tech Mono',monospace;font-size:.7rem;padding:.25rem .65rem;border-radius:3px;border:1px solid}
+/* ── LIVE CARD ── */
+.live-card{border-left:4px solid var(--grass);border-radius:6px;padding:1.5rem 1.75rem;margin-bottom:1.75rem;animation:fadeUp .3s ease;position:relative;overflow:hidden;background:var(--panel2);border:1px solid rgba(94,168,50,.2);border-left:4px solid var(--grass)}
+.live-card.dead{border-color:rgba(217,54,54,.25);border-left-color:var(--red);animation:deathFlash 1.2s ease 4}
+.lc-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.75rem;margin-bottom:1.1rem}
+.lc-name{font-family:'Press Start 2P',monospace;font-size:.75rem;color:var(--white);line-height:1.5}
+.lc-badge{display:inline-flex;align-items:center;gap:.4rem;font-family:'Share Tech Mono',monospace;font-size:.7rem;padding:.25rem .7rem;border-radius:3px;border:1px solid;white-space:nowrap}
 .lc-badge.alive{color:var(--grass-l);border-color:rgba(94,168,50,.3);background:rgba(94,168,50,.08)}
 .lc-badge.dead{color:var(--redg);border-color:rgba(217,54,54,.3);background:rgba(217,54,54,.08)}
-.lc-badge .pulse{width:6px;height:6px;border-radius:50%;background:var(--grass-l);animation:pulse 2s infinite;flex-shrink:0}
-.lc-badge.dead .pulse{background:var(--redg);animation:none}
-.big-timer{font-family:'Press Start 2P',monospace;font-size:3rem;color:var(--diamond);letter-spacing:.03em;margin-bottom:1.25rem;text-shadow:0 0 24px rgba(77,232,245,.25);line-height:1}
-.big-timer.dead{color:var(--redg);text-shadow:0 0 24px rgba(255,68,68,.2)}
-.players-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem}
-.pchip{display:flex;align-items:center;gap:.45rem;border-radius:4px;padding:.35rem .7rem;border:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.25)}
-.pchip img{width:28px;height:28px;border-radius:3px;image-rendering:pixelated;border:1px solid rgba(255,255,255,.1)}
-.pchip-name{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:rgba(255,255,255,.7)}
-.lc-meta{display:flex;gap:.75rem;flex-wrap:wrap;font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--muted)}
-.death-msg{background:rgba(217,54,54,.07);border:1px solid rgba(217,54,54,.18);border-radius:3px;padding:.6rem .85rem;font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--redg);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.lc-badge.waiting{color:var(--muted);border-color:var(--border);background:rgba(255,255,255,.03)}
+.badge-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.badge-dot.alive{background:var(--grass-l);animation:pulse 2s infinite}
+.badge-dot.dead{background:var(--redg);animation:redpulse 1s ease 3}
 
-/* ── WAITING BOX ── */
-.wait-box{background:var(--panel);border:1px solid var(--border);border-left:4px solid rgba(255,255,255,.08);border-radius:6px;padding:1.5rem 1.75rem;margin-bottom:1.75rem;display:flex;align-items:center;gap:1.1rem}
-.wait-box .wi{font-size:1.75rem;flex-shrink:0}
-.wait-title{font-family:'Press Start 2P',monospace;font-size:.62rem;color:rgba(255,255,255,.4);margin-bottom:.4rem}
+/* ── BIG TIMER ── */
+.big-timer{font-family:'Press Start 2P',monospace;font-size:3.2rem;color:var(--diamond);letter-spacing:.04em;margin-bottom:1.25rem;text-shadow:0 0 28px rgba(77,232,245,.2);line-height:1}
+.big-timer.dead{color:var(--redg);text-shadow:0 0 28px rgba(255,68,68,.2)}
+
+/* ── PLAYERS ── */
+.players-row{display:flex;gap:.65rem;flex-wrap:wrap;margin-bottom:1.1rem}
+.pchip{display:flex;align-items:center;gap:.5rem;border-radius:4px;padding:.4rem .8rem;border:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.25)}
+.pchip img{width:32px;height:32px;border-radius:3px;image-rendering:pixelated;border:1px solid rgba(255,255,255,.12)}
+.pchip-name{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:rgba(255,255,255,.8)}
+
+/* ── DEATH MSG ── */
+.death-msg{background:rgba(217,54,54,.07);border:1px solid rgba(217,54,54,.18);border-radius:3px;padding:.65rem .9rem;font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--redg);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+
+/* ── RUN META ── */
+.lc-meta{display:flex;gap:.75rem;flex-wrap:wrap;font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--muted)}
+
+/* ── WAITING ── */
+.wait-box{background:var(--panel);border:1px solid var(--border);border-left:4px solid rgba(255,255,255,.06);border-radius:6px;padding:1.5rem 1.75rem;margin-bottom:1.75rem;display:flex;align-items:center;gap:1.1rem}
+.wait-icon{font-size:1.75rem;flex-shrink:0}
+.wait-title{font-family:'Press Start 2P',monospace;font-size:.6rem;color:rgba(255,255,255,.35);margin-bottom:.4rem}
 .wait-sub{font-family:'Share Tech Mono',monospace;font-size:.73rem;color:var(--muted)}
 
-/* ── RUN LIST ── */
+/* ── RUNS LIST ── */
 .runs-list{display:flex;flex-direction:column;gap:.6rem}
 .rc{background:var(--panel);border:1px solid var(--border);border-left:4px solid transparent;border-radius:4px;padding:.9rem 1.1rem;transition:background .15s}
 .rc:hover{background:rgba(255,255,255,.02)}
-.rc.alive{border-left-color:var(--grass)}
-.rc.dead{border-left-color:var(--red)}
-.rc.completed{border-left-color:var(--gold)}
+.rc.alive{border-left-color:var(--grass)}.rc.dead{border-left-color:var(--red)}.rc.completed{border-left-color:var(--gold)}
 .rc-inner{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:.75rem}
-.rn{font-family:'Press Start 2P',monospace;font-size:.6rem;margin-bottom:.3rem}
+.rn{font-family:'Press Start 2P',monospace;font-size:.6rem;margin-bottom:.25rem}
 .rm{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--muted);display:flex;gap:.65rem;flex-wrap:wrap;margin-top:.3rem}
 .rtag{font-family:'Share Tech Mono',monospace;font-size:.62rem;padding:.12rem .4rem;border-radius:2px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;border:1px solid}
 .rtag.alive{background:rgba(74,124,47,.18);color:var(--grass-l);border-color:rgba(74,124,47,.28)}
 .rtag.dead{background:rgba(217,54,54,.18);color:var(--redg);border-color:rgba(217,54,54,.28)}
 .rtag.completed{background:rgba(245,197,24,.13);color:var(--gold);border-color:rgba(245,197,24,.28)}
 .rtime{font-family:'Press Start 2P',monospace;font-size:.58rem;color:var(--diamond);white-space:nowrap}
-.death-line{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--redg);margin-top:.35rem;display:flex;align-items:center;gap:.3rem}
+.death-line{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--redg);margin-top:.35rem}
 .empty{text-align:center;padding:2.5rem;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:.78rem}
 .empty-icon{font-size:2rem;margin-bottom:.75rem}
 
@@ -123,16 +116,8 @@ nav{display:flex;gap:.15rem;margin-left:auto}
 .lbr{font-family:'Press Start 2P',monospace;font-size:.58rem}
 .r1{color:var(--gold)}.r2{color:#aaa}.r3{color:#cd7f32}
 .lbplayer{display:flex;align-items:center;gap:.45rem;font-family:'Nunito',sans-serif;font-weight:700;color:var(--white)}
-.lbyou{color:var(--diamond)!important}
 .lbtime{font-family:'Press Start 2P',monospace;font-size:.55rem;color:var(--diamond)}
 .skin-head{width:24px;height:24px;border-radius:2px;image-rendering:pixelated;border:1px solid rgba(255,255,255,.1);flex-shrink:0}
-
-/* ── MODAL ── */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)}
-.overlay.open{display:flex}
-.modal{background:#1a1a28;border:1px solid rgba(255,255,255,.1);border-top:3px solid var(--grass);border-radius:6px;padding:1.75rem;width:100%;max-width:420px;animation:fadeUp .22s ease}
-.mt{font-family:'Press Start 2P',monospace;font-size:.7rem;margin-bottom:1.25rem;color:var(--grass-l)}
-.ma{display:flex;gap:.6rem;justify-content:flex-end;margin-top:1.25rem}
 
 /* ── LOADING ── */
 .loading{display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:1rem}
@@ -142,259 +127,178 @@ nav{display:flex;gap:.15rem;margin-left:auto}
   .big-timer{font-size:2rem}
   .stats{grid-template-columns:repeat(2,1fr)}
   .rc-inner{grid-template-columns:1fr}
-  nav .nb:not(.act){font-size:.65rem;padding:.3rem .5rem}
+  nav .nb{font-size:.65rem;padding:.3rem .55rem}
 }
 </style>
 </head>
 <body>
-<div id="root"><div class="loading"><div class="loading-txt">Connecting...</div></div></div>
+<div id="root"><div class="loading"><div class="loading-txt">Loading...</div></div></div>
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
 <script>
-// ── CONFIG ───────────────────────────────────────────────────────────────────
+// ── FIREBASE CONFIG ───────────────────────────────────────────────────────────
 const firebaseConfig = {
-  apiKey: "AIzaSyD5-uJ3vWCWygsjA3cQqGyyaCcQPZolZP4",
-  authDomain: "minecraft-hardcore-log.firebaseapp.com",
-  projectId: "minecraft-hardcore-log",
-  storageBucket: "minecraft-hardcore-log.firebasestorage.app",
+  apiKey:            "AIzaSyD5-uJ3vWCWygsjA3cQqGyyaCcQPZolZP4",
+  authDomain:        "minecraft-hardcore-log.firebaseapp.com",
+  projectId:         "minecraft-hardcore-log",
+  storageBucket:     "minecraft-hardcore-log.firebasestorage.app",
   messagingSenderId: "695119014155",
-  appId: "1:695119014155:web:019aeb5ce85fd3f6ce9a0e"
+  appId:             "1:695119014155:web:019aeb5ce85fd3f6ce9a0e"
 };
-// Mirror of plugin config — used to show player chips on dashboard
-const TRACKED_PLAYERS = ['belleke03', 'zwana', 'Guntter78NL'];
+
+// ── TRACKED PLAYERS — must match plugin config exactly ────────────────────────
+const PLAYERS        = ['belleke03', 'zwana', 'Guntter78NL'];
+// The Firebase UID that the plugin writes runs under (Emma's account owner_uid)
+// This is read from the first run doc we find — so it self-discovers on first load.
+let OWNER_UID = null;
 
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db   = firebase.firestore();
+const db = firebase.firestore();
 
-// ── STATE ────────────────────────────────────────────────────────────────────
+// ── STATE ─────────────────────────────────────────────────────────────────────
 let st = {
-  view: 'login',
-  tab: 'dashboard',
-  user: null,
-  username: '',
-  runs: [],
-  lb: [],
-  modal: null,
-  loginErr: '',
-  regErr: '',
-  runsUnsub: null,
-  liveRunUnsub: null,
-  liveRun: null,        // current alive run doc — written by the mod
+  tab:          'dashboard',
+  runs:         [],
+  lb:           [],
+  liveRun:      null,
   timerInterval: null,
+  runsUnsub:    null,
+  liveUnsub:    null,
+  loaded:       false,
 };
 
-// ── AUTH ─────────────────────────────────────────────────────────────────────
-auth.onAuthStateChanged(async user => {
-  if (user) {
-    st.user = user;
-    const prof = await db.collection('users').doc(user.uid).get();
-    st.username = prof.exists ? (prof.data().username || user.email) : user.email;
-    st.view = 'app';
-    subscribeRuns();
-    subscribeLiveRun();
-  } else {
-    st.user = null; st.username = ''; st.view = 'login';
-    st.runs = []; st.liveRun = null;
-    stopLiveTimer();
-    if (st.runsUnsub)    { st.runsUnsub();    st.runsUnsub    = null; }
-    if (st.liveRunUnsub) { st.liveRunUnsub(); st.liveRunUnsub = null; }
-    render();
+// ── BOOT — discover owner UID then subscribe ──────────────────────────────────
+async function boot() {
+  // Find the owner UID by looking for any run doc in the collection
+  // The plugin always writes runs with the configured owner_uid
+  try {
+    const snap = await db.collection('runs').limit(1).get();
+    if (!snap.empty) {
+      OWNER_UID = snap.docs[0].data().uid;
+    }
+  } catch(e) {
+    console.warn('Could not discover owner UID:', e);
   }
-});
+
+  if (!OWNER_UID) {
+    // No runs yet — still show the dashboard, just empty
+    st.loaded = true;
+    render();
+    // Keep trying every 10s until a run appears
+    const poll = setInterval(async () => {
+      try {
+        const snap = await db.collection('runs').limit(1).get();
+        if (!snap.empty) {
+          OWNER_UID = snap.docs[0].data().uid;
+          clearInterval(poll);
+          subscribeAll();
+        }
+      } catch {}
+    }, 10000);
+    return;
+  }
+
+  subscribeAll();
+}
+
+function subscribeAll() {
+  subscribeRuns();
+  subscribeLiveRun();
+}
 
 // ── REAL-TIME LISTENERS ───────────────────────────────────────────────────────
 
 function subscribeRuns() {
   if (st.runsUnsub) st.runsUnsub();
-  st.runsUnsub = db.collection('runs')
-    .where('uid', '==', st.user.uid)
-    .orderBy('startTime', 'desc')
-    .onSnapshot(snap => {
-      st.runs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      render();
-    }, () => {
-      // Fallback without orderBy
-      st.runsUnsub = db.collection('runs')
-        .where('uid', '==', st.user.uid)
-        .onSnapshot(snap => {
-          st.runs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-            .sort((a, b) => b.startTime - a.startTime);
-          render();
-        });
-    });
+  const q = db.collection('runs')
+    .where('uid', '==', OWNER_UID)
+    .orderBy('startTime', 'desc');
+  st.runsUnsub = q.onSnapshot(snap => {
+    st.runs   = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    st.loaded = true;
+    render();
+  }, () => {
+    // Fallback without orderBy if index not ready
+    db.collection('runs').where('uid', '==', OWNER_UID)
+      .onSnapshot(snap => {
+        st.runs   = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => b.startTime - a.startTime);
+        st.loaded = true;
+        render();
+      });
+  });
 }
 
-/**
- * Watches for a run with status='alive'.
- * The mod creates it when a tracked player joins, updates it every 30s,
- * and sets status='dead' or 'completed' on the relevant event.
- * This listener reacts instantly to every change.
- */
 function subscribeLiveRun() {
-  if (st.liveRunUnsub) st.liveRunUnsub();
-  st.liveRunUnsub = db.collection('runs')
-    .where('uid', '==', st.user.uid)
+  if (st.liveUnsub) st.liveUnsub();
+  st.liveUnsub = db.collection('runs')
+    .where('uid', '==', OWNER_UID)
     .where('status', '==', 'alive')
     .onSnapshot(snap => {
       const prev = st.liveRun;
       if (!snap.empty) {
-        const doc = snap.docs[0];
-        const wasNull = !prev;
-        const isNew = prev && prev.id !== doc.id;
+        const doc  = snap.docs[0];
+        const wasNew = !prev || prev.id !== doc.id;
         st.liveRun = { id: doc.id, ...doc.data() };
-        if (wasNull || isNew) startLiveTimer();
+        if (wasNew) startLiveTimer();
       } else {
         st.liveRun = null;
         stopLiveTimer();
       }
-      // Update just the live section without full re-render
-      patchLiveSection();
+      patchLive();
     });
 }
 
 // ── LIVE TIMER ────────────────────────────────────────────────────────────────
-// Client-side ticker seeded from run.startTime — accurate across refreshes.
-
 function startLiveTimer() {
   stopLiveTimer();
-  st.timerInterval = setInterval(tickTimer, 1000);
+  st.timerInterval = setInterval(() => {
+    const el = document.getElementById('live-timer');
+    if (el && st.liveRun) {
+      el.textContent = fmtT(Math.floor((Date.now() - st.liveRun.startTime) / 1000));
+    }
+  }, 1000);
 }
 function stopLiveTimer() {
   if (st.timerInterval) { clearInterval(st.timerInterval); st.timerInterval = null; }
 }
-function tickTimer() {
-  if (!st.liveRun) return;
-  const el = document.getElementById('live-timer');
-  if (el) {
-    el.textContent = fmtT(Math.floor((Date.now() - st.liveRun.startTime) / 1000));
-  }
-}
 
-/** Updates only the live section div — avoids full page re-render. */
-function patchLiveSection() {
+/** Patches only the live section — no full re-render, timer keeps ticking. */
+function patchLive() {
   const el = document.getElementById('live-section');
   if (el) {
     el.innerHTML = buildLiveSection();
     if (st.liveRun) startLiveTimer();
+    updateHeaderChip();
   } else {
     render();
   }
 }
 
-// ── AUTH ACTIONS ──────────────────────────────────────────────────────────────
-async function doLogin() {
-  const email = vget('liu').trim(), pass = vget('lip');
-  if (!email || !pass) { st.loginErr = 'Enter email and password.'; render(); return; }
-  try { await auth.signInWithEmailAndPassword(email, pass); }
-  catch(e) { st.loginErr = friendlyError(e.code); render(); }
-}
-
-async function doRegister() {
-  const username = vget('regu').trim(), email = vget('rege').trim();
-  const pass = vget('regp'), pass2 = vget('regp2');
-  if (username.length < 2) { st.regErr = 'Username must be at least 2 characters.'; render(); return; }
-  if (!email.includes('@')) { st.regErr = 'Enter a valid email address.'; render(); return; }
-  if (pass.length < 6)      { st.regErr = 'Password must be at least 6 characters.'; render(); return; }
-  if (pass !== pass2)       { st.regErr = "Passwords don't match."; render(); return; }
-  const ukey = username.toLowerCase();
-  const taken = await db.collection('usernames').doc(ukey).get();
-  if (taken.exists) {
-    const ru = await db.collection('users').doc(taken.data().uid).get();
-    if (ru.exists) {
-      const se = (ru.data().email||'').toLowerCase(), su = (ru.data().username||'').toLowerCase();
-      if (su === ukey && se !== email.toLowerCase()) { st.regErr = 'Username already taken.'; render(); return; }
-      await db.collection('users').doc(taken.data().uid).delete();
-    }
-    await db.collection('usernames').doc(ukey).delete();
+function updateHeaderChip() {
+  const chip = document.getElementById('header-chip');
+  if (!chip) return;
+  if (st.liveRun) {
+    chip.className = 'live-chip';
+    chip.innerHTML = `<div class="live-dot"></div>LIVE`;
+  } else {
+    chip.className = 'live-chip offline';
+    chip.innerHTML = `<div class="live-dot"></div>OFFLINE`;
   }
-  try {
-    const cred = await auth.createUserWithEmailAndPassword(email, pass);
-    await db.collection('users').doc(cred.user.uid).set({ username, email, created: Date.now() });
-    await db.collection('usernames').doc(ukey).set({ uid: cred.user.uid });
-    st.modal = null;
-  } catch(e) { st.regErr = friendlyError(e.code); render(); }
-}
-
-async function doLogout() { stopLiveTimer(); await auth.signOut(); }
-
-function friendlyError(code) {
-  return ({
-    'auth/user-not-found':'No account with that email.',
-    'auth/wrong-password':'Wrong password.',
-    'auth/invalid-email':'Invalid email address.',
-    'auth/email-already-in-use':'Email already registered.',
-    'auth/weak-password':'Password must be at least 6 characters.',
-    'auth/invalid-credential':'Invalid email or password.',
-    'auth/too-many-requests':'Too many attempts. Try again later.',
-  })[code] || 'Something went wrong. Try again.';
-}
-
-async function loadLeaderboard() {
-  try {
-    const snap = await db.collection('leaderboard').orderBy('elapsed','asc').limit(50).get();
-    st.lb = snap.docs.map(d => d.data());
-  } catch {
-    try {
-      const snap = await db.collection('leaderboard').get();
-      st.lb = snap.docs.map(d => d.data()).sort((a,b) => a.elapsed - b.elapsed);
-    } catch { st.lb = []; }
-  }
-  renderLeaderboardTable();
 }
 
 // ── RENDER ────────────────────────────────────────────────────────────────────
 function render() {
-  const root = document.getElementById('root');
-  if (st.view === 'login') { root.innerHTML = renderLogin(); }
-  else { root.innerHTML = renderApp(); afterRender(); }
-  bindEvents();
-}
-
-function renderLogin() {
-  return `
-  <div class="flex-center">
-    <div class="login-box">
-      <div class="pixel-title">⚔ Minecraft<br>Hardcore Log</div>
-      <div class="sub">live run tracker</div>
-      <div class="field"><label>Email</label><input id="liu" type="email" placeholder="you@example.com" autocomplete="email"/></div>
-      <div class="field"><label>Password</label><input id="lip" type="password" placeholder="••••••••" autocomplete="current-password"/></div>
-      ${st.loginErr ? `<div class="errmsg">${esc(st.loginErr)}</div>` : ''}
-      <div style="display:flex;flex-direction:column;gap:.6rem;margin-top:1.25rem">
-        <button class="btn btn-primary btn-block" id="do-login">⚔ Enter World</button>
-        <button class="btn btn-ghost btn-block" id="open-reg">Create Account</button>
-      </div>
-    </div>
-  </div>
-  ${st.modal === 'register' ? renderRegModal() : ''}`;
-}
-
-function renderRegModal() {
-  return `
-  <div class="overlay open" id="reg-ov">
-    <div class="modal">
-      <div class="mt">⛏ Create Account</div>
-      <div class="field"><label>Username (shown on leaderboard)</label><input id="regu" type="text" placeholder="CreeperSlayer99"/></div>
-      <div class="field"><label>Email</label><input id="rege" type="email" placeholder="you@example.com"/></div>
-      <div class="field"><label>Password (min 6 chars)</label><input id="regp" type="password" placeholder="••••••••"/></div>
-      <div class="field"><label>Confirm Password</label><input id="regp2" type="password" placeholder="••••••••"/></div>
-      ${st.regErr ? `<div class="errmsg">${esc(st.regErr)}</div>` : ''}
-      <div class="ma">
-        <button class="btn btn-ghost" id="close-reg">Cancel</button>
-        <button class="btn btn-primary" id="do-reg">Create Account</button>
-      </div>
-    </div>
-  </div>`;
-}
-
-function renderApp() {
-  return `
+  if (!st.loaded) {
+    document.getElementById('root').innerHTML =
+      `<div class="loading"><div class="loading-txt">Loading...</div></div>`;
+    return;
+  }
+  document.getElementById('root').innerHTML = `
   <header>
     <div class="hinner">
-      <div class="logo" id="logo-h">
+      <div class="logo">
         <div class="creeper" id="hcreeper" style="width:30px;height:30px"></div>
         <div class="logo-text">HARDCORE<br><em>LOG</em></div>
       </div>
@@ -404,15 +308,22 @@ function renderApp() {
             {dashboard:'Dashboard',runs:'Runs',leaderboard:'Leaderboard'}[t]
           }</button>`).join('')}
       </nav>
-      <div class="user-chip"><span class="online-dot"></span>${esc(st.username)}</div>
-      <button class="btn btn-ghost btn-sm" id="logout-btn" style="margin-left:.5rem">Log Out</button>
+      <div id="header-chip" class="live-chip${st.liveRun?'':' offline'}">
+        <div class="live-dot"></div>${st.liveRun ? 'LIVE' : 'OFFLINE'}
+      </div>
     </div>
   </header>
   <div id="app-body">
-    ${st.tab === 'dashboard'   ? renderDashboard()   : ''}
-    ${st.tab === 'runs'        ? renderRuns()         : ''}
-    ${st.tab === 'leaderboard' ? renderLeaderboard()  : ''}
+    ${st.tab === 'dashboard'   ? renderDashboard()  : ''}
+    ${st.tab === 'runs'        ? renderRuns()        : ''}
+    ${st.tab === 'leaderboard' ? renderLeaderboard() : ''}
   </div>`;
+
+  buildCreeper('hcreeper');
+  if (st.tab === 'dashboard' && st.liveRun) startLiveTimer();
+  if (st.tab === 'leaderboard') loadLeaderboard();
+  document.querySelectorAll('[data-tab]').forEach(el =>
+    el.addEventListener('click', () => { st.tab = el.dataset.tab; render(); }));
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────────────────────
@@ -423,8 +334,8 @@ function renderDashboard() {
 
   return `<div class="wrap">
   <div class="ph">
-    <div class="pt">Dashboard <em>${esc(st.username)}</em></div>
-    <div class="pd">Live — updated automatically by the server mod</div>
+    <div class="pt"><em>belleke03</em> & zwana</div>
+    <div class="pd">Co-op hardcore run tracker — live</div>
   </div>
 
   <div class="stats">
@@ -454,7 +365,7 @@ function renderDashboard() {
 
   <div class="toolbar" style="margin-top:1.75rem">
     <h2>Recent Runs</h2>
-    <button class="btn btn-ghost btn-sm" data-tab="runs">View All →</button>
+    <button class="btn" data-tab="runs">View All →</button>
   </div>
   ${buildRunList(st.runs.slice(0, 5))}
 </div>`;}
@@ -463,10 +374,10 @@ function buildLiveSection() {
   if (!st.liveRun) {
     return `
     <div class="wait-box">
-      <div class="wi">🌙</div>
+      <div class="wait-icon">🌙</div>
       <div>
         <div class="wait-title">No active run</div>
-        <div class="wait-sub">A run starts automatically when ${TRACKED_PLAYERS[0]} or ${TRACKED_PLAYERS[1]} joins the server</div>
+        <div class="wait-sub">A run starts automatically when ${PLAYERS[0]} or ${PLAYERS[1]} joins the server</div>
       </div>
     </div>`;
   }
@@ -474,19 +385,19 @@ function buildLiveSection() {
   const r    = st.liveRun;
   const secs = Math.floor((Date.now() - r.startTime) / 1000);
   const gm   = {ender:'Kill the Ender Dragon',wither:'Kill the Wither',elder:'Kill Elder Guardian',survive:'Survive',speedrun:'Speedrun'};
-  const players = r.trackedPlayers || TRACKED_PLAYERS;
+  const players = r.trackedPlayers || PLAYERS;
 
   return `
   <div class="live-card ${r.status}">
-    <div class="lc-row">
+    <div class="lc-top">
       <div class="lc-name">${esc(r.name)}</div>
       <div class="lc-badge ${r.status}">
-        <div class="pulse"></div>
+        <div class="badge-dot ${r.status}"></div>
         ${r.status === 'alive' ? 'RUN IN PROGRESS' : '💀 RUN ENDED'}
       </div>
     </div>
 
-    <div class="big-timer${r.status==='dead'?' dead':''}" id="live-timer">${fmtT(secs)}</div>
+    <div class="big-timer${r.status === 'dead' ? ' dead' : ''}" id="live-timer">${fmtT(secs)}</div>
 
     <div class="players-row">
       ${players.map(p => `
@@ -502,22 +413,21 @@ function buildLiveSection() {
       <span>📅 ${new Date(r.startTime).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span>
       <span class="vbadge">${esc(r.version)}</span>
       <span>🎯 ${gm[r.goal] || esc(r.goal)}</span>
-      ${r.seed ? `<span>🌱 ${esc(r.seed)}</span>` : ''}
+      ${r.seed  ? `<span>🌱 ${esc(r.seed)}</span>`  : ''}
       ${r.notes ? `<span>📝 ${esc(r.notes)}</span>` : ''}
     </div>
   </div>`;
 }
 
-// ── RUNS TAB ──────────────────────────────────────────────────────────────────
+// ── RUNS ──────────────────────────────────────────────────────────────────────
 function renderRuns() {
-  const alive     = st.runs.filter(r => r.status==='alive').length;
-  const dead      = st.runs.filter(r => r.status==='dead').length;
-  const completed = st.runs.filter(r => r.status==='completed').length;
-
+  const alive     = st.runs.filter(r => r.status === 'alive').length;
+  const dead      = st.runs.filter(r => r.status === 'dead').length;
+  const completed = st.runs.filter(r => r.status === 'completed').length;
   return `<div class="wrap">
   <div class="ph">
     <div class="pt">All <em>Runs</em></div>
-    <div class="pd">Every attempt — automatically tracked by the server mod</div>
+    <div class="pd">Every attempt — tracked automatically by the server mod</div>
   </div>
   <div style="font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--muted);margin-bottom:1.25rem">
     ${st.runs.length} total &nbsp;·&nbsp;
@@ -532,7 +442,7 @@ function buildRunList(runs) {
   if (!runs.length) return `<div class="empty"><div class="empty-icon">⚔</div>No runs yet — join the server to begin!</div>`;
   const gm = {ender:'Ender Dragon',wither:'Wither',elder:'Elder Guardian',survive:'Survive',speedrun:'Speedrun'};
   return `<div class="runs-list">${runs.map(r => {
-    const elapsed = r.status !== 'alive' ? (r.elapsed || 0) : Math.floor((Date.now() - r.startTime) / 1000);
+    const elapsed = r.status !== 'alive' ? (r.elapsed||0) : Math.floor((Date.now()-r.startTime)/1000);
     return `<div class="rc ${r.status}">
       <div class="rc-inner">
         <div>
@@ -540,15 +450,13 @@ function buildRunList(runs) {
           <div class="rm">
             <span>📅 ${new Date(r.startTime).toLocaleDateString()}</span>
             <span class="vbadge">${esc(r.version)}</span>
-            <span>${gm[r.goal] || esc(r.goal)}</span>
+            <span>${gm[r.goal]||esc(r.goal)}</span>
             ${r.seed ? `<span>🌱 ${esc(r.seed)}</span>` : ''}
           </div>
           ${r.lastDeath ? `<div class="death-line">☠ ${esc(r.lastDeath)}</div>` : ''}
         </div>
         <div class="rtime">${fmtT(elapsed)}</div>
-        <span class="rtag ${r.status}">
-          ${r.status==='alive'?'💚 Alive':r.status==='dead'?'💀 Dead':'🏆 Done'}
-        </span>
+        <span class="rtag ${r.status}">${r.status==='alive'?'💚 Alive':r.status==='dead'?'💀 Dead':'🏆 Done'}</span>
       </div>
     </div>`;
   }).join('')}</div>`;}
@@ -558,43 +466,39 @@ function renderLeaderboard() {
   return `<div class="wrap">
   <div class="ph">
     <div class="pt">Leader<em>board</em></div>
-    <div class="pd">Completed runs ranked by fastest time — all players</div>
+    <div class="pd">Completed runs ranked by fastest time</div>
   </div>
   <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden">
     <table class="lbt">
-      <thead>
-        <tr>
-          <th>#</th><th>Player</th><th>Run</th><th>Version</th><th>Time</th><th>Goal</th><th>Date</th>
-        </tr>
-      </thead>
-      <tbody id="lb-tbody">
-        <tr><td colspan="7" class="empty" style="padding:1.5rem">Loading...</td></tr>
-      </tbody>
+      <thead><tr><th>#</th><th>Run</th><th>Version</th><th>Time</th><th>Goal</th><th>Date</th></tr></thead>
+      <tbody id="lb-tbody"><tr><td colspan="6" class="empty" style="padding:1.5rem">Loading...</td></tr></tbody>
     </table>
   </div>
 </div>`;}
 
-function renderLeaderboardTable() {
+async function loadLeaderboard() {
+  try {
+    const snap = await db.collection('leaderboard').orderBy('elapsed','asc').limit(50).get();
+    st.lb = snap.docs.map(d => d.data());
+  } catch {
+    try {
+      const snap = await db.collection('leaderboard').get();
+      st.lb = snap.docs.map(d => d.data()).sort((a,b) => a.elapsed-b.elapsed);
+    } catch { st.lb = []; }
+  }
   const tbody = document.getElementById('lb-tbody');
   if (!tbody) return;
   const gm = {ender:'Ender Dragon',wither:'Wither',elder:'Elder Guardian',survive:'Survive',speedrun:'Speedrun'};
   if (!st.lb.length) {
-    tbody.innerHTML = `<tr><td colspan="7" class="empty" style="padding:1.5rem">No completions yet — slay the dragon! 🐉</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" class="empty" style="padding:1.5rem">No completions yet — slay the dragon! 🐉</td></tr>`;
     return;
   }
-  tbody.innerHTML = st.lb.map((r, i) => {
-    const isYou = r.uid === st.user?.uid;
+  tbody.innerHTML = st.lb.map((r,i) => {
     const rk = i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1);
     const rc = i===0?'r1':i===1?'r2':i===2?'r3':'';
     return `<tr>
       <td><span class="lbr ${rc}">${rk}</span></td>
-      <td>
-        <div class="lbplayer${isYou?' lbyou':''}">
-          <img class="skin-head" src="${skinUrl(esc(r.username))}" alt="" loading="lazy" onerror="this.style.display='none'">
-          ${esc(r.username)}${isYou?' <span style="font-size:.65rem;opacity:.7">(you)</span>':''}
-        </div>
-      </td>
-      <td>${esc(r.runName)}</td>
+      <td><span style="font-family:'Press Start 2P',monospace;font-size:.58rem">${esc(r.runName)}</span></td>
       <td><span class="vbadge">${esc(r.version)}</span></td>
       <td><span class="lbtime">${fmtT(r.elapsed)}</span></td>
       <td style="font-size:.7rem">${gm[r.goal]||esc(r.goal)}</td>
@@ -603,43 +507,13 @@ function renderLeaderboardTable() {
   }).join('');
 }
 
-// ── AFTER RENDER ──────────────────────────────────────────────────────────────
-function afterRender() {
-  buildCreeper('hcreeper');
-  if (st.tab === 'dashboard' && st.liveRun) startLiveTimer();
-  if (st.tab === 'leaderboard') loadLeaderboard();
-}
-
-// ── EVENTS ────────────────────────────────────────────────────────────────────
-function bindEvents() {
-  on('do-login', doLogin);
-  on('lip', null, 'keydown', e => { if (e.key==='Enter') doLogin(); });
-  on('open-reg', () => { st.modal='register'; st.regErr=''; render(); });
-  on('close-reg', () => { st.modal=null; render(); });
-  on('reg-ov', e => { if (e.target.id==='reg-ov') { st.modal=null; render(); }});
-  on('do-reg', doRegister);
-  on('logout-btn', doLogout);
-  on('logo-h', () => setTab('dashboard'));
-  document.querySelectorAll('[data-tab]').forEach(el =>
-    el.addEventListener('click', () => setTab(el.dataset.tab)));
-}
-
 // ── UTILS ─────────────────────────────────────────────────────────────────────
-function on(id, fn, evt='click', fn2=null) {
-  const el = document.getElementById(id);
-  if (el) el.addEventListener(fn2 ? evt : 'click', fn2 || fn);
-}
-function vget(id) { const el = document.getElementById(id); return el ? el.value : ''; }
-function setTab(t) { st.tab = t; render(); }
 function fmtT(s) {
   s = Math.max(0, Math.floor(s));
   return `${p(Math.floor(s/3600))}:${p(Math.floor((s%3600)/60))}:${p(s%60)}`;
 }
-function p(n) { return String(n).padStart(2, '0'); }
-function esc(s) {
-  if (!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+function p(n)  { return String(n).padStart(2,'0'); }
+function esc(s){ if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function skinUrl(u) { return `https://mc-heads.net/avatar/${encodeURIComponent(u)}/32`; }
 function buildCreeper(id) {
   const el = document.getElementById(id); if (!el) return;
@@ -651,6 +525,9 @@ function buildCreeper(id) {
     el.appendChild(d);
   });
 }
+
+// ── START ─────────────────────────────────────────────────────────────────────
+boot();
 </script>
 </body>
 </html>
